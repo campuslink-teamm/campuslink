@@ -1,0 +1,21 @@
+
+.campus-button {
+  background-color: #d845c0;
+  color: white;
+  border: 4px solid #9d10a0;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: crosshair;
+  transition: background-color 0.2s;
+}
+
+.campus-button:not(:disabled):hover {
+  background-color: #d358c2;
+}
+
+.campus-button:disabled {
+  background-color: #e09ee2;
+  cursor: not-allowed;
+}
