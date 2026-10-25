@@ -1,29 +1,14 @@
-
-import { useState } from "react";
+import React from 'react';
+// Importuojame tavo sukurtą FeedPage puslapį
+import FeedPage from './pages/FeedPage';
 
 function App() {
-  const [activities, setActivities] = useState(null);
-
-  async function loadActivities() {
-    const response = await fetch("/api/activities");
-    const data = await response.json();
-    setActivities(data);
-  }
-
   return (
     <div>
-      <h1>CampusLink</h1>
-      <button onClick={loadActivities}>
-        Gauti veiklas
-      </button>
-      <p>
-        {activities === null
-          ? "Duomenys dar negauti"
-          : `Gautos veiklos: ${JSON.stringify(activities)}`}
-      </p>
+      {/* Atvaizduojame FeedPage kaip pagrindinį puslapį */}
+      <FeedPage />
     </div>
   );
 }
 
 export default App;
-
