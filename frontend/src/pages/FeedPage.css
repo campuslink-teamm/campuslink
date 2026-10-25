@@ -1,0 +1,143 @@
+/* Pagrindinio puslapio konteineris */
+.feed-page {
+  padding: 20px;
+  font-family: sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Viršutinė juosta (Header) */
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Užtikrina, kad telpa ir mažesniuose ekranuose */
+  gap: 15px;
+}
+
+.feed-logo {
+  color: #2563eb;
+  margin: 0;
+  font-size: 22px;
+}
+
+.feed-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.nav-link {
+  cursor: pointer;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Antraštės dalis */
+.feed-top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.feed-title {
+  font-size: 24px;
+  margin: 0 0 5px 0;
+  color: #111827;
+}
+
+.feed-subtitle {
+  color: #6b7280;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* 🔥 SKELBIMŲ TINKLELIS (GRID) IR RESPONSIVE DIZAINAS */
+.activities-grid {
+  display: grid;
+  /* Sukuria automatiškai prisitaikančius stulpelius: kiekvienas mažiausiai 280px, o telpantys išsiplečia */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* Tolygūs tarpai tarp kortelių */
+  gap: 20px;
+}
+
+/* Atskira skelbimo kortelė */
+.activity-card-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.activity-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.activity-title {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #1f2937;
+}
+
+.activity-desc {
+  color: #4b5563;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.activity-date {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.no-activities {
+  color: #6b7280;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+}
+
+/* 📱 Mobiliųjų ekranų pritaikymas (Responsive design) */
+@media (max-width: 768px) {
+  .feed-page {
+    padding: 10px;
+  }
+
+  .feed-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .feed-nav {
+    gap: 12px;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 5px;
+  }
+
+  .feed-top-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .activities-grid {
+    /* Mobiliuosiuose ekranuose kortelės bus per visą plotą */
+    grid-template-columns: 1fr;
+  }
+}
