@@ -1,0 +1,83 @@
+.create-activity-wrapper {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.create-activity-header {
+  margin-bottom: 20px;
+}
+
+.create-activity-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  color: #111827;
+}
+
+.create-activity-header p {
+  font-size: 16px;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Du stulpeliai vienoje eilutėje */
+.form-row-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .form-row-two-cols {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.campus-textarea {
+  resize: vertical;
+  min-height: 110px;
+  font-family: inherit;
+}
+
+.form-actions-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cancel-outline-btn {
+  background-color: white;
+  color: #374151;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancel-outline-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.form-error-text {
+  color: #e63946;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.activity-preview-box {
+  margin-top: 24px;
+  padding: 16px;
+  border: 2px dashed #9d10a0;
+  border-radius: 12px;
+  background-color: #fdf4ff;
+}
+
+.activity-preview-box h3 {
+  margin-top: 0;
+}
