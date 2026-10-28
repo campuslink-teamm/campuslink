@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Button from '../components/ui/Button';
+// Importuojame BaseCard komponentą iš teisingo kelio
+import BaseCard from '../components/ui/BaseCard';
 import './FeedPage.css';
 
 export default function FeedPage() {
-  // 1. Sukuriame mock duomenų masyvą su būsena (State), kad prireikus galėtume testuoti tuščią sąrašą
   const [activities] = useState([
-    { id: 1, title: 'Stalo tenisas' },
-    { id: 2, title: 'Rytinis bėgimas' },
-    { id: 3, title: 'Programavimo konsultacija' },
+    { id: 1, title: 'Stalo tenisas', description: 'Ieškau žmonių, kurie norėtų pažaisti stalo teniso po paskaitų.', date: 'Spalio 23, 2026' },
+    { id: 2, title: 'Rytinis bėgimas', description: 'Bėgam Vingio parke, junkitės!', date: 'Spalio 24, 2026' },
+    { id: 3, title: 'Programavimo konsultacija', description: 'Kartojamės React prieš egzaminą bibliotekoje.', date: 'Spalio 25, 2026' },
   ]);
 
   return (
@@ -30,34 +31,24 @@ export default function FeedPage() {
           <p className="feed-subtitle">Peržiūrėk kitų studentų veiklas ir prisijunk!</p>
         </div>
         
-        <Button onClick={() => alert('Atidaroma skelbimo kūrimo forma (Veronikos dalis)')}>
+        <Button onClick={() => alert('Atidaroma skelbimo kūrimo forma')}>
           + Sukurti skelbimą
         </Button>
       </div>
 
-      {/* Skelbimų tinklelis ir sąlyginis atvaizdavimas (Conditional Rendering) */}
+      {/* Skelbimų tinklelis (Grid) */}
       <div className="activities-grid">
         {activities.length > 0 ? (
-          // Jei skelbimų yra – sukuriame vietą (konteinerį) kortelėms
           activities.map((activity) => (
-            <div key={activity.id} className="activity-card-container">
-              {/* 
-                ⚠️ SVARBU: Čia kuri TIK VIETĄ kortelei! 
-                Kai Veronika baigs savo ActivityCard, šią vietą pakeisi importuota kortele, 
-                pvz.: <ActivityCard activity={activity} />
-              */}
-              <div style={{ border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '20px', textAlign: 'center', background: '#f8fafc', color: '#64748b' }}>
-                <p style={{ margin: 0, fontWeight: '600' }}>[ Veronikos ActivityCard vieta ]</p>
-                <p style={{ fontSize: '14px', margin: '5px 0 0 0' }}>Skelbimas: {activity.title}</p>
-              </div>
-            </div>
+            // Naudojame BaseCard, kurio viduje patalpiname skelbimo informaciją
+            <BaseCard key={activity.id}>
+              <h3 className="activity-title">{activity.title}</h3>
+              <p className="activity-desc">{activity.description}</p>
+              <span className="activity-date">📅 {activity.date}</span>
+            </BaseCard>
           ))
         ) : (
-          /* Jei skelbimų sąrašas tuščias – rodomas tvarkingas pranešimas */
-          <div className="no-activities" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-            <p style={{ fontSize: '18px', fontWeight: '500' }}>Šiuo metu aktyvių veiklų nėra.</p>
-            <p style={{ fontSize: '14px' }}>Būk pirmas ir sukurk naują skelbimą!</p>
-          </div>
+          <p className="no-activities">Šiuo metu aktyvių veiklų nėra.</p>
         )}
       </div>
     </div>
