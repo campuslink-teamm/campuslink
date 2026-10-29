@@ -1,35 +1,11 @@
 import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
+import { mockActivities } from '../data/mockActivities';
 import './FeedPage.css';
 
 export default function FeedPage() {
-  const [activities] = useState([
-    {
-      id: 1,
-      title: 'Stalo tenisas',
-      description: 'Ieškau žmonių, kurie norėtų pažaisti stalo teniso po paskaitų.',
-      date: 'Spalio 23, 2026',
-      location: 'Aukštojo mokslo rūmai',
-      author: 'Jonas'
-    },
-    {
-      id: 2,
-      title: 'Rytinis bėgimas',
-      description: 'Bėgam Vingio parke, junkitės visi norintys!',
-      date: 'Spalio 24, 2026',
-      location: 'Vingio parkas',
-      author: 'Milda'
-    },
-    {
-      id: 3,
-      title: 'Programavimo konsultacija',
-      description: 'Kartojamės React prieš egzaminą bibliotekoje.',
-      date: 'Spalio 25, 2026',
-      location: 'Biblioteka, 3 salė',
-      author: 'Lukas'
-    }
-  ]);
+  const [activities] = useState(mockActivities);
 
   return (
     <div className="feed-page">
