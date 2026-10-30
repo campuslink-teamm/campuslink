@@ -67,8 +67,8 @@
 /* 🔥 SKELBIMŲ TINKLELIS (GRID) IR RESPONSIVE DIZAINAS */
 .activities-grid {
   display: grid;
-  /* Sukuria automatiškai prisitaikančius stulpelius: kiekvienas mažiausiai 280px, o telpantys išsiplečia */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* Pakeista į lygiai 3 stulpelius per visą plotą */
+  grid-template-columns: repeat(3, 1fr);
   /* Tolygūs tarpai tarp kortelių */
   gap: 20px;
 }
@@ -114,6 +114,13 @@
 }
 
 /* 📱 Mobiliųjų ekranų pritaikymas (Responsive design) */
+@media (max-width: 992px) {
+  .activities-grid {
+    /* Planšetėms padarome 2 stulpelius */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .feed-page {
     padding: 10px;
@@ -137,7 +144,7 @@
   }
 
   .activities-grid {
-    /* Mobiliuosiuose ekranuose kortelės bus per visą plotą */
+    /* Mobiliuosiuose ekranuose kortelės bus per visą plotą (1 stulpelis) */
     grid-template-columns: 1fr;
   }
 }

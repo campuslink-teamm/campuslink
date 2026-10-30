@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
 import { mockActivities } from '../data/mockActivities';
@@ -6,6 +7,7 @@ import './FeedPage.css';
 
 export default function FeedPage() {
   const [activities] = useState(mockActivities);
+  const navigate = useNavigate();
 
   return (
     <div className="feed-page">
@@ -13,7 +15,7 @@ export default function FeedPage() {
       <header className="feed-header">
         <h2 className="feed-logo">CampusLink</h2>
         <nav className="feed-nav">
-          <span className="nav-link">Pagrindinis</span>
+          <span className="nav-link" onClick={() => navigate('/feed')} style={{ cursor: 'pointer' }}>Pagrindinis</span>
           <span className="nav-link active">Sukurti skelbimą</span>
           <span className="nav-link">Mano skelbimai</span>
           <span className="nav-link">Mano profilis</span>
@@ -27,7 +29,8 @@ export default function FeedPage() {
           <p className="feed-subtitle">Peržiūrėk kitų studentų veiklas ir prisijunk!</p>
         </div>
         
-        <Button onClick={() => alert('Atidaroma skelbimo kūrimo forma')}>
+        {/* Mygtukas nukreipia į kūrimo formą */}
+        <Button onClick={() => navigate('/create')}>
           + Sukurti skelbimą
         </Button>
       </div>

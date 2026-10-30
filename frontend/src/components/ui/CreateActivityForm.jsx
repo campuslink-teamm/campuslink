@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import Button from "./Button";
 import BaseCard from "./BaseCard";
 
 export default function CreateActivityForm() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -21,15 +24,8 @@ export default function CreateActivityForm() {
   };
 
   const handleReset = () => {
-    setFormData({
-      title: "",
-      location: "",
-      description: "",
-      date: "",
-      time: "",
-    });
-    setError("");
-    setPreviewData(null);
+    // Paspaudus atšaukti, grįžtame atgal į /feed
+    navigate('/feed');
   };
 
   const handleSubmit = (e) => {
@@ -49,6 +45,10 @@ export default function CreateActivityForm() {
 
     console.log("Sukurta veikla (tik peržiūra, neišsaugota DB):", formData);
     setPreviewData(formData);
+
+    // Po sėkmingo demonstracinio paskelbimo po trumpos pauzės galime grįžti į feed
+    // arba palikti peržiūrą. Štai pavyzdys, kaip galima iškart grįžti arba leisti peržiūrėti:
+    // navigate('/feed');
   };
 
   const requiredLabel = (text) => (
@@ -59,13 +59,18 @@ export default function CreateActivityForm() {
 
   return (
     <div style={{ maxWidth: "720px", margin: "40px auto", padding: "0 16px", fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ marginBottom: "20px" }}>
-        <h1 style={{ fontSize: "28px", fontWeight: 800, margin: "0 0 6px 0" }}>
-          Sukurti skelbimą
-        </h1>
-        <p style={{ fontSize: "16px", color: "#4b5563", margin: 0 }}>
-          Pasidalykite su universiteto bendruomene.
-        </p>
+      <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <h1 style={{ fontSize: "28px", fontWeight: 800, margin: "0 0 6px 0" }}>
+            Sukurti skelbimą
+          </h1>
+          <p style={{ fontSize: "16px", color: "#4b5563", margin: 0 }}>
+            Pasidalykite su universiteto bendruomene.
+          </p>
+        </div>
+        <Button onClick={() => navigate('/feed')} style={{ backgroundColor: "#e5e7eb", color: "#374151" }}>
+          ← Atgal į srautą
+        </Button>
       </div>
 
       <BaseCard>
@@ -160,6 +165,9 @@ export default function CreateActivityForm() {
             <p><strong>Location:</strong> {previewData.location}</p>
             <p><strong>Description:</strong> {previewData.description}</p>
             <p><strong>Date & Time:</strong> {previewData.date} {previewData.time}</p>
+            <div style={{ marginTop: "12px" }}>
+              <Button onClick={() => navigate('/feed')}>Grįžti į srautą</Button>
+            </div>
           </div>
         )}
       </BaseCard>
