@@ -1,17 +1,27 @@
-
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importuojame useNavigate
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import BaseCard from "../components/ui/BaseCard";
 import "./AuthPage.css";
 
-function SignInPage({ onBack, onRegister }) {
+export default function SignInPage() {
+  const navigate = useNavigate(); // 2. Inicijuojame hook'ą
+
+  // Prisijungimo pateikimas – nukreipia į skelbimų srautą (/feed)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate('/feed'); 
+  };
+
   return (
     <main className="auth-page">
       <header className="auth-header">
+        {/* Logo mygtukas grąžina į pradinį puslapį (/) */}
         <button
           className="auth-logo-button"
           type="button"
-          onClick={onBack}
+          onClick={() => navigate('/')}
         >
           <img
             src="/images/logo.png"
@@ -29,7 +39,7 @@ function SignInPage({ onBack, onRegister }) {
               Sveikas sugrįžęs į CampusLink!
             </p>
 
-            <form onSubmit={(event) => event.preventDefault()}>
+            <form onSubmit={handleSubmit}>
               <Input
                 id="signin-email"
                 label="El. paštas"
@@ -54,7 +64,7 @@ function SignInPage({ onBack, onRegister }) {
               <button
                 type="button"
                 className="auth-link"
-                onClick={onRegister}
+                onClick={() => navigate('/register')} // Nuveda į registracijos puslapį
               >
                 Registruotis
               </button>
@@ -65,5 +75,3 @@ function SignInPage({ onBack, onRegister }) {
     </main>
   );
 }
-
-export default SignInPage;

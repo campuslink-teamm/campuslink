@@ -1,17 +1,27 @@
-
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importuojame useNavigate
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import BaseCard from "../components/ui/BaseCard";
 import "./AuthPage.css";
 
-function RegisterPage({ onBack, onSignIn }) {
+export default function RegisterPage() {
+  const navigate = useNavigate(); // 2. Inicijuojame hook'ą
+
+  // Registracijos pateikimas – demonstraciškai nukreipia į skelbimų srautą (/feed)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate('/feed');
+  };
+
   return (
     <main className="auth-page">
       <header className="auth-header">
+        {/* Logo mygtukas grąžina į pradinį puslapį (/) */}
         <button
           className="auth-logo-button"
           type="button"
-          onClick={onBack}
+          onClick={() => navigate('/')}
         >
           <img
             src="/images/logo.png"
@@ -29,7 +39,7 @@ function RegisterPage({ onBack, onSignIn }) {
               Prisijunk prie studentų bendruomenės!
             </p>
 
-            <form onSubmit={(event) => event.preventDefault()}>
+            <form onSubmit={handleSubmit}>
               <Input
                 id="register-email"
                 label="El. paštas"
@@ -61,7 +71,7 @@ function RegisterPage({ onBack, onSignIn }) {
               <button
                 type="button"
                 className="auth-link"
-                onClick={onSignIn}
+                onClick={() => navigate('/signin')} // Nukreipia atgal į prisijungimo puslapį
               >
                 Prisijungti
               </button>
@@ -72,5 +82,3 @@ function RegisterPage({ onBack, onSignIn }) {
     </main>
   );
 }
-
-export default RegisterPage;

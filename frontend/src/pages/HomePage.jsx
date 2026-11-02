@@ -1,8 +1,11 @@
-
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importuojame useNavigate
 import Button from "../components/ui/Button";
 import "./HomePage.css";
 
-function HomePage({ onSignIn, onRegister }) {
+export default function HomePage() {
+  const navigate = useNavigate(); // 2. Inicijuojame hook'ą
+
   return (
     <main className="home-page">
 
@@ -28,11 +31,12 @@ function HomePage({ onSignIn, onRegister }) {
         </p>
 
         <div className="home-buttons">
-          <Button onClick={onSignIn}>
+          {/* 3. Prijungiame naršymą prie mygtukų */}
+          <Button onClick={() => navigate('/signin')}>
             Prisijungti
           </Button>
 
-          <Button onClick={onRegister}>
+          <Button onClick={() => navigate('/register')}>
             Registruotis
           </Button>
         </div>
@@ -41,5 +45,3 @@ function HomePage({ onSignIn, onRegister }) {
     </main>
   );
 }
-
-export default HomePage;

@@ -1,29 +1,33 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import { useState } from "react";
+// Importuojame visų komandos narių puslapius
+import HomePage from './pages/HomePage'; 
+import SignInPage from './pages/SignInPage';
+import RegisterPage from './pages/RegisterPage';
+import FeedPage from './pages/FeedPage';
+import CreateActivityForm from './components/ui/CreateActivityForm'; 
 
-function App() {
-  const [activities, setActivities] = useState(null);
-
-  async function loadActivities() {
-    const response = await fetch("/api/activities");
-    const data = await response.json();
-    setActivities(data);
-  }
-
+export default function App() {
   return (
-    <div>
-      <h1>CampusLink</h1>
-      <button onClick={loadActivities}>
-        Gauti veiklas
-      </button>
-      <p>
-        {activities === null
-          ? "Duomenys dar negauti"
-          : `Gautos veiklos: ${JSON.stringify(activities)}`}
-      </p>
-    </div>
+    <Router>
+      <Routes>
+        {/* 1. Pagrindinis puslapis */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* 2. Prisijungimas ir Registracija */}
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
+        {/* 3. Skelbimų srautas (FeedPage) */}
+        <Route path="/feed" element={<FeedPage />} />
+
+        {/* 4. Skelbimo kūrimo forma */}
+        <Route path="/create" element={<CreateActivityForm />} />
+
+        {/* Jei įvedamas nežinomas kelias – nukreipiama į pradinį puslapį */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
-
