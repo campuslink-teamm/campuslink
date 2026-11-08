@@ -1,23 +1,41 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Importuojame useNavigate
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../services/authenticationService';
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import BaseCard from "../components/ui/BaseCard";
 import "./AuthPage.css";
 
 export default function SignInPage() {
-  const navigate = useNavigate(); // 2. Inicijuojame hook'ą
+  const navigate = useNavigate();
 
-  // Prisijungimo pateikimas – nukreipia į skelbimų srautą (/feed)
-  const handleSubmit = (event) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate('/feed'); 
+    setErrorMessage('');
+    setIsLoading(true);
+
+    try {
+      await loginUser(email.trim(), password);
+      navigate('/feed', { replace: true });
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrorMessage(
+        'Nepavyko prisijungti. Patikrink el. paštą ir slaptažodį.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <main className="auth-page">
       <header className="auth-header">
-        {/* Logo mygtukas grąžina į pradinį puslapį (/) */}
         <button
           className="auth-logo-button"
           type="button"
@@ -45,6 +63,9 @@ export default function SignInPage() {
                 label="El. paštas"
                 type="email"
                 placeholder="vardas@universitetas.lt"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
               />
 
               <Input
@@ -52,10 +73,21 @@ export default function SignInPage() {
                 label="Slaptažodis"
                 type="password"
                 placeholder="Įvesk slaptažodį"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
               />
 
+              {errorMessage && (
+                <p role="alert" style={{ color: 'red' }}>
+                  {errorMessage}
+                </p>
+              )}
+
               <div className="auth-submit">
-                <Button type="submit">Prisijungti</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? 'Jungiamasi...' : 'Prisijungti'}
+                </Button>
               </div>
             </form>
 
@@ -64,7 +96,7 @@ export default function SignInPage() {
               <button
                 type="button"
                 className="auth-link"
-                onClick={() => navigate('/register')} // Nuveda į registracijos puslapį
+                onClick={() => navigate('/register')}
               >
                 Registruotis
               </button>

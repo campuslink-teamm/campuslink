@@ -1,7 +1,15 @@
 
 import "./Input.css";
 
-function Input({ label, id, type = "text", placeholder }) {
+function Input({
+  label,
+  id,
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  required = false,
+}) {
   return (
     <div className="campus-input-group">
       <label className="campus-input-label" htmlFor={id}>
@@ -13,6 +21,9 @@ function Input({ label, id, type = "text", placeholder }) {
         id={id}
         type={type}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
       />
     </div>
   );
