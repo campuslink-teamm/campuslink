@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import Button from "./Button";
 import BaseCard from "./BaseCard";
 
 export default function CreateActivityForm() {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     title: "",
-    location: "",
+    category: "",
     description: "",
-    date: "",
-    time: "",
+    contactInformation: "",
+    photos: null,
   });
 
   const [error, setError] = useState("");
@@ -24,8 +21,15 @@ export default function CreateActivityForm() {
   };
 
   const handleReset = () => {
-    // Paspaudus atšaukti, grįžtame atgal į /feed
-    navigate('/feed');
+    setFormData({
+      title: "",
+      category: "",
+      description: "",
+      contactInformation: "",
+      photos: null,
+    });
+    setError("");
+    setPreviewData(null);
   };
 
   const handleSubmit = (e) => {
@@ -33,22 +37,17 @@ export default function CreateActivityForm() {
 
     if (
       !formData.title.trim() ||
+      !formData.category.trim() ||
       !formData.description.trim() ||
-      !formData.location.trim() ||
-      !formData.date ||
-      !formData.time
+      !formData.contactInformation.trim()
     ) {
       setError("Prašome užpildyti visus privalomus laukus (*).");
       setPreviewData(null);
       return;
     }
 
-    console.log("Sukurta veikla (tik peržiūra, neišsaugota DB):", formData);
+    console.log("Sukurtas skelbimas (tik peržiūra, neišsaugota DB):", formData);
     setPreviewData(formData);
-
-    // Po sėkmingo demonstracinio paskelbimo po trumpos pauzės galime grįžti į feed
-    // arba palikti peržiūrą. Štai pavyzdys, kaip galima iškart grįžti arba leisti peržiūrėti:
-    // navigate('/feed');
   };
 
   const requiredLabel = (text) => (
@@ -59,68 +58,96 @@ export default function CreateActivityForm() {
 
   return (
     <div style={{ maxWidth: "720px", margin: "40px auto", padding: "0 16px", fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <h1 style={{ fontSize: "28px", fontWeight: 800, margin: "0 0 6px 0" }}>
-            Sukurti skelbimą
-          </h1>
-          <p style={{ fontSize: "16px", color: "#4b5563", margin: 0 }}>
-            Pasidalykite su universiteto bendruomene.
-          </p>
-        </div>
-        <Button onClick={() => navigate('/feed')} style={{ backgroundColor: "#e5e7eb", color: "#374151" }}>
-          ← Atgal į srautą
-        </Button>
+      <div style={{ marginBottom: "20px" }}>
+        <h1 style={{ fontSize: "28px", fontWeight: 800, margin: "0 0 6px 0" }}>
+          Sukurti skelbimą
+        </h1>
+        <p style={{ fontSize: "16px", color: "#4b5563", margin: 0 }}>
+          Pasidalykite su universiteto bendruomene
+        </p>
       </div>
 
       <BaseCard>
         <form onSubmit={handleSubmit}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+          {/* Pirma eilutė: Pavadinimas ir Kategorija */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "20px" }}>
             <Input
               id="title"
               label={requiredLabel("Pavadinimas")}
-              placeholder="pvz. Parduodami vadoveliai"
+              placeholder="pvz. Parduodami vadovėliai"
               value={formData.title}
               onChange={handleChange("title")}
             />
-            <Input
-              id="location"
-              label={requiredLabel("Vieta")}
-              placeholder="pvz. Saulėtekio al. 9"
-              value={formData.location}
-              onChange={handleChange("location")}
-            />
+            
+            {/* Jei Kategorijai naudojate paprastą Input arba pasirinkimo sąrašą (Select) */}
+            <div className="campus-input-group">
+              <label className="campus-input-label" htmlFor="category">
+                {requiredLabel("Kategorija")}
+              </label>
+              <select
+                id="category"
+                className="campus-input"
+                style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #d1d5db", fontFamily: "inherit", backgroundColor: "white" }}
+                value={formData.category}
+                onChange={handleChange("category")}
+              >
+                <option value="">Pasirinkite kategoriją</option>
+                <option value="vadoveliai">Vadovėliai</option>
+                <option value="elektronika">Elektronika</option>
+                <option value="paslaugos">Paslaugos</option>
+                <option value="kita">Kita</option>
+              </select>
+            </div>
           </div>
 
-          <div className="campus-input-group">
+          {/* Aprašymas */}
+          <div className="campus-input-group" style={{ marginBottom: "20px" }}>
             <label className="campus-input-label" htmlFor="description">
               {requiredLabel("Aprašymas")}
             </label>
             <textarea
               id="description"
               className="campus-input"
-              style={{ minHeight: "110px", resize: "vertical", fontFamily: "inherit" }}
-              placeholder="Aprašykite savo skelbimą"
+              style={{ width: "100%", minHeight: "110px", resize: "vertical", fontFamily: "inherit", padding: "10px", borderRadius: "8px", border: "1px solid #d1d5db" }}
+              placeholder="Aprašykite savo skelbimą (būklė, detalės, kaina ir kt.)"
               value={formData.description}
               onChange={handleChange("description")}
             />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+          {/* Kontaktinė informacija */}
+          <div style={{ marginBottom: "20px" }}>
             <Input
-              id="date"
-              type="date"
-              label={requiredLabel("Data")}
-              value={formData.date}
-              onChange={handleChange("date")}
+              id="contactInformation"
+              label={requiredLabel("Kontaktinė informacija")}
+              placeholder="Universiteto el. paštas arba telefono numeris"
+              value={formData.contactInformation}
+              onChange={handleChange("contactInformation")}
             />
-            <Input
-              id="time"
-              type="time"
-              label={requiredLabel("Laikas")}
-              value={formData.time}
-              onChange={handleChange("time")}
-            />
+          </div>
+
+          {/* Nuotraukos (pasirinktinai) */}
+          <div style={{ marginBottom: "20px" }}>
+            <label style={{ display: "block", fontWeight: 500, marginBottom: "8px" }}>
+              Nuotraukos (pasirinktinai)
+            </label>
+            <div
+              style={{
+                border: "2px dashed #cbd5e1",
+                borderRadius: "12px",
+                padding: "24px",
+                textAlign: "center",
+                backgroundColor: "#f8fafc",
+                cursor: "pointer",
+              }}
+            >
+              <div style={{ color: "#2563eb", fontWeight: 600, marginBottom: "4px" }}>
+                Įkelti nuotraukas
+              </div>
+              <div style={{ fontSize: "13px", color: "#64748b" }}>
+                PNG, JPG iki 5 MB (maks. 5)
+              </div>
+            </div>
           </div>
 
           {error && (
@@ -129,7 +156,8 @@ export default function CreateActivityForm() {
             </p>
           )}
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "16px" }}>
+          {/* Mygtukai */}
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "24px" }}>
             <button
               type="button"
               onClick={handleReset}
@@ -138,7 +166,7 @@ export default function CreateActivityForm() {
                 color: "#374151",
                 border: "2px solid #d1d5db",
                 borderRadius: "12px",
-                padding: "12px 24px",
+                padding: "10px 24px",
                 fontSize: "16px",
                 fontWeight: 500,
                 cursor: "pointer",
@@ -160,14 +188,11 @@ export default function CreateActivityForm() {
               backgroundColor: "#fdf4ff",
             }}
           >
-            <h3 style={{ marginTop: 0 }}>Duomenų peržiūra (neišsaugota DB):</h3>
-            <p><strong>Title:</strong> {previewData.title}</p>
-            <p><strong>Location:</strong> {previewData.location}</p>
-            <p><strong>Description:</strong> {previewData.description}</p>
-            <p><strong>Date & Time:</strong> {previewData.date} {previewData.time}</p>
-            <div style={{ marginTop: "12px" }}>
-              <Button onClick={() => navigate('/feed')}>Grįžti į srautą</Button>
-            </div>
+            <h3 style={{ marginTop: 0 }}>Sukurtas skelbimas (peržiūra):</h3>
+            <p><strong>Pavadinimas:</strong> {previewData.title}</p>
+            <p><strong>Kategorija:</strong> {previewData.category}</p>
+            <p><strong>Aprašymas:</strong> {previewData.description}</p>
+            <p><strong>Kontaktai:</strong> {previewData.contactInformation}</p>
           </div>
         )}
       </BaseCard>
