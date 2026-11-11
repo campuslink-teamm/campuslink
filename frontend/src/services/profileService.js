@@ -50,3 +50,50 @@ export async function getCurrentUserProfile() {
     listingsCount: count ?? 0,
   };
 }
+// Update the currently signed-in student's profile
+export async function updateCurrentUserProfile({
+  firstName,
+  lastName,
+  phoneNumber,
+}) {
+  // 1. Get the authenticated user
+  const { data: authData, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError) {
+    throw authError;
+  }
+
+  const user = authData.user;
+
+  if (!user) {
+    throw new Error('User is not signed in.');
+  }
+
+  // 2. Save profile information to Supabase
+  const { data, error } = await supabaseClient
+    .from('PROFILES')
+    .upsert(
+      {
+        id: user.id,
+        email: user.email,
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        phone_number: phoneNumber.trim(),
+      },
+      { onConflict: 'id' }
+    )
+    .select('first_name, last_name, phone_number')
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  // 3. Return the updated profile
+  return {
+    firstName: data.first_name,
+    lastName: data.last_name,
+    phoneNumber: data.phone_number,
+  };
+}
