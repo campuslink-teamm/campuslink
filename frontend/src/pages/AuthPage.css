@@ -2,7 +2,8 @@
 .auth-page {
   min-height: 100vh;
   min-height: 100svh;
-  background: linear-gradient(145deg, #ffe5f1, #fff2f8);
+  background: url("/images/bg-2.png") no-repeat center center;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
