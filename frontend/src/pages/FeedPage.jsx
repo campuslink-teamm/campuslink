@@ -18,7 +18,12 @@ export default function FeedPage() {
           <span className="nav-link" onClick={() => navigate('/feed')} style={{ cursor: 'pointer' }}>Pagrindinis</span>
           <span className="nav-link active">Sukurti skelbimą</span>
           <span className="nav-link">Mano skelbimai</span>
-          <span className="nav-link">Mano profilis</span>
+          <span className="nav-link"
+          onClick={() => navigate('/profile')}
+          style={{ cursor: 'pointer' }}
+        >
+          Mano profilis
+        </span>
         </nav>
       </header>
 

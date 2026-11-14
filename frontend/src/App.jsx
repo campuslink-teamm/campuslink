@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import SignInPage from './pages/SignInPage';
 import RegisterPage from './pages/RegisterPage';
 import FeedPage from './pages/FeedPage';
+import ProfilePage from './pages/ProfilePage';
 import CreateActivityForm from './components/ui/CreateActivityForm';
 
 // Puslapių apsauga
@@ -43,7 +44,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
+        {/* Naudotojo profilis */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
         {/* Nežinomas adresas */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
