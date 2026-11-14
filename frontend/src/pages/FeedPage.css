@@ -148,3 +148,41 @@
     grid-template-columns: 1fr;
   }
 }
+/* CampusLink logotipas ir atsijungimo mygtukas */
+
+.feed-header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Atsijungimo mygtuko dydis */
+
+.feed-header-left .campus-button {
+  padding: 9px 16px;
+  font-size: 14px;
+}
+
+/* Atsijungimo klaida */
+
+.feed-logout-error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Siauresni ekranai */
+
+@media (max-width: 750px) {
+  .feed-header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .feed-nav {
+    flex-wrap: wrap;
+  }
+}
