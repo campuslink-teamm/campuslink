@@ -1,5 +1,7 @@
 
 import React from 'react';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,7 +27,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         {/* Tik prisijungusiems naudotojams */}
         <Route
           path="/feed"

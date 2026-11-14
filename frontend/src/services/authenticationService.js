@@ -49,3 +49,24 @@ export async function getCurrentUserSession() {
 
   return data.session;
 }
+// Siųsti slaptažodžio atkūrimo laišką
+export async function sendPasswordResetEmail(email) {
+  const { error } =
+    await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`
+    });
+
+  if (error) {
+    throw error;
+  }
+}
+// Pakeisti prisijungusio naudotojo slaptažodį
+export async function updateUserPassword(newPassword) {
+  const { error } = await supabaseClient.auth.updateUser({
+    password: newPassword
+  });
+
+  if (error) {
+    throw error;
+  }
+}

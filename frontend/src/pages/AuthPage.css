@@ -98,3 +98,11 @@
     font-size: 30px;
   }
 }
+/* Pamiršau slaptažodį nuoroda */
+
+.auth-forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -4px;
+  margin-bottom: 18px;
+}
