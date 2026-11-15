@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
@@ -14,6 +13,7 @@ import SignInPage from './pages/SignInPage';
 import RegisterPage from './pages/RegisterPage';
 import FeedPage from './pages/FeedPage';
 import ProfilePage from './pages/ProfilePage';
+import MyListingsPage from './pages/MyListingsPage'; // 1. Importuojame Mano skelbimų puslapį
 import CreateActivityForm from './components/ui/CreateActivityForm';
 
 // Puslapių apsauga
@@ -29,12 +29,23 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+
         {/* Tik prisijungusiems naudotojams */}
         <Route
           path="/feed"
           element={
             <ProtectedRoute>
               <FeedPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Mano skelbimų puslapis */}
+        <Route
+          path="/my-listings"
+          element={
+            <ProtectedRoute>
+              <MyListingsPage />
             </ProtectedRoute>
           }
         />
@@ -47,6 +58,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         {/* Naudotojo profilis */}
         <Route
           path="/profile"
@@ -56,6 +68,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         {/* Nežinomas adresas */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

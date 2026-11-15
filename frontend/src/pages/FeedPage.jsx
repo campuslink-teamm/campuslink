@@ -41,16 +41,24 @@ export default function FeedPage() {
   }
 
   return (
-    <div className="feed-page">
+    <div className="auth-page feed-page-wrapper">
 
-      {/* Viršutinė juosta */}
-      <header className="feed-header">
+      {/* Viršutinė juosta (Header) su logotipu, navigacija ir atsijungimu */}
+      <header className="auth-header feed-header">
 
         <div className="feed-header-left">
-
-          <h2 className="feed-logo">
-            CampusLink
-          </h2>
+          {/* Tikrasis logo paveikslėlis, derantis prie prisijungimo lango */}
+          <button
+            className="auth-logo-button"
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            <img
+              src="/images/logo.png"
+              alt="CampusLink"
+              className="auth-logo"
+            />
+          </button>
 
           <Button
             onClick={handleLogout}
@@ -58,35 +66,37 @@ export default function FeedPage() {
           >
             {loggingOut ? 'Atsijungiama...' : 'Atsijungti'}
           </Button>
-
         </div>
 
         <nav className="feed-nav">
-
           <span
-            className="nav-link"
+            className="nav-link active"
             onClick={() => navigate('/feed')}
-            style={{ cursor: 'pointer' }}
           >
             Pagrindinis
           </span>
 
-          <span className="nav-link active">
+          <span
+            className="nav-link"
+            onClick={() => navigate('/create')}
+          >
             Sukurti skelbimą
           </span>
 
-          <span className="nav-link">
+          {/* Nukreipimas į tavo sukurtą Mano skelbimų puslapį */}
+          <span
+            className="nav-link"
+            onClick={() => navigate('/my-listings')}
+          >
             Mano skelbimai
           </span>
 
           <span
             className="nav-link"
             onClick={() => navigate('/profile')}
-            style={{ cursor: 'pointer' }}
           >
             Mano profilis
           </span>
-
         </nav>
 
       </header>
@@ -99,58 +109,60 @@ export default function FeedPage() {
       )}
 
       {/* Pagrindinė puslapio dalis */}
-      <div className="feed-top-section">
+      <div className="feed-main-content">
+        <div className="feed-top-section">
 
-        <div>
-          <h1 className="feed-title">
-            Studentų skelbimai
-          </h1>
+          <div>
+            <h1 className="feed-title">
+              Studentų skelbimai
+            </h1>
 
-          <p className="feed-subtitle">
-            Peržiūrėk kitų studentų veiklas ir prisijunk!
-          </p>
-        </div>
-
-        <Button onClick={() => navigate('/create')}>
-          + Sukurti skelbimą
-        </Button>
-
-      </div>
-
-      {/* Skelbimų tinklelis */}
-      <div className="activities-grid">
-
-        {activities.length > 0 ? (
-
-          activities.map((activity) => (
-            <ActivityCard
-              key={activity.id}
-              activity={activity}
-            />
-          ))
-
-        ) : (
-
-          <div
-            className="no-activities"
-            style={{
-              gridColumn: '1 / -1',
-              textAlign: 'center',
-              padding: '40px',
-              color: '#6b7280'
-            }}
-          >
-            <p>
-              Šiuo metu aktyvių veiklų nėra.
-            </p>
-
-            <p>
-              Būk pirmas ir sukurk naują skelbimą!
+            <p className="feed-subtitle">
+              Peržiūrėk kitų studentų veiklas ir prisijunk!
             </p>
           </div>
 
-        )}
+          <Button onClick={() => navigate('/create')}>
+            + Sukurti skelbimą
+          </Button>
 
+        </div>
+
+        {/* Skelbimų tinklelis */}
+        <div className="activities-grid">
+
+          {activities.length > 0 ? (
+
+            activities.map((activity) => (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+              />
+            ))
+
+          ) : (
+
+            <div
+              className="no-activities"
+              style={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                padding: '40px',
+                color: '#5b4860'
+              }}
+            >
+              <p>
+                Šiuo metu aktyvių veiklų nėra.
+              </p>
+
+              <p>
+                Būk pirmas ir sukurk naują skelbimą!
+              </p>
+            </div>
+
+          )}
+
+        </div>
       </div>
 
     </div>

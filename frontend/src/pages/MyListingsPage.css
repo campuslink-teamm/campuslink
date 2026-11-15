@@ -1,0 +1,116 @@
+.my-listings-wrapper {
+  background: linear-gradient(145deg, #ffe5f1, #fff2f8);
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 30px;
+  border-bottom: 1px solid rgba(230, 200, 220, 0.4);
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.feed-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 15px;
+}
+
+.nav-link {
+  cursor: pointer;
+  color: #5b4860;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #9d10a0;
+}
+
+.nav-link.active {
+  color: #9d10a0;
+  font-weight: 700;
+}
+
+.feed-main-content {
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.feed-top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.feed-title {
+  color: #390039;
+  font-size: 32px;
+  margin: 0 0 6px;
+  font-weight: 800;
+}
+
+.feed-subtitle {
+  color: #5b4860;
+  margin: 0;
+  font-size: 16px;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Kortelių stilius */
+.activity-card-item {
+  border: 2px solid #e879f9;
+  border-radius: 16px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.activity-card-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 992px) {
+  .activities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .feed-header {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .feed-nav {
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 5px;
+  }
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+}
