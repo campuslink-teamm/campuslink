@@ -9,6 +9,7 @@ export default function CreateActivityForm() {
     category: "",
     description: "",
     contactInformation: "",
+    date: "",
     photos: null,
   });
 
@@ -26,6 +27,7 @@ export default function CreateActivityForm() {
       category: "",
       description: "",
       contactInformation: "",
+      date: "",
       photos: null,
     });
     setError("");
@@ -39,7 +41,8 @@ export default function CreateActivityForm() {
       !formData.title.trim() ||
       !formData.category.trim() ||
       !formData.description.trim() ||
-      !formData.contactInformation.trim()
+      !formData.contactInformation.trim() ||
+      !formData.date
     ) {
       setError("Prašome užpildyti visus privalomus laukus (*).");
       setPreviewData(null);
@@ -79,7 +82,6 @@ export default function CreateActivityForm() {
               onChange={handleChange("title")}
             />
             
-            {/* Jei Kategorijai naudojate paprastą Input arba pasirinkimo sąrašą (Select) */}
             <div className="campus-input-group">
               <label className="campus-input-label" htmlFor="category">
                 {requiredLabel("Kategorija")}
@@ -115,14 +117,21 @@ export default function CreateActivityForm() {
             />
           </div>
 
-          {/* Kontaktinė informacija */}
-          <div style={{ marginBottom: "20px" }}>
+          {/* Kontaktinė informacija ir Data */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "20px" }}>
             <Input
               id="contactInformation"
               label={requiredLabel("Kontaktinė informacija")}
               placeholder="Universiteto el. paštas arba telefono numeris"
               value={formData.contactInformation}
               onChange={handleChange("contactInformation")}
+            />
+            <Input
+              id="date"
+              type="date"
+              label={requiredLabel("Data")}
+              value={formData.date}
+              onChange={handleChange("date")}
             />
           </div>
 
@@ -193,6 +202,7 @@ export default function CreateActivityForm() {
             <p><strong>Kategorija:</strong> {previewData.category}</p>
             <p><strong>Aprašymas:</strong> {previewData.description}</p>
             <p><strong>Kontaktai:</strong> {previewData.contactInformation}</p>
+            <p><strong>Data:</strong> {previewData.date}</p>
           </div>
         )}
       </BaseCard>
