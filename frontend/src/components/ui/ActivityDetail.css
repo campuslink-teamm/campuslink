@@ -1,0 +1,178 @@
+.activity-detail-container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.activity-detail-nav {
+  margin-bottom: 20px;
+}
+
+.activity-detail-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: #374151;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.activity-detail-back-btn:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* Krovimosi, klaidos ir nerasto skelbimo būsenos */
+.activity-detail-status {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.activity-detail-spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: activity-spin 0.8s linear infinite;
+}
+
+@keyframes activity-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.activity-detail-loading-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0;
+}
+
+.activity-detail-error-title {
+  color: #e63946;
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.activity-detail-empty-title {
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.activity-detail-status-desc {
+  color: #6b7280;
+  margin: 0 0 20px 0;
+  font-size: 15px;
+}
+
+/* Skelbimo turinys */
+.activity-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.activity-detail-badge {
+  background-color: #dbeafe;
+  color: #1e40af;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.activity-detail-id {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.activity-detail-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 16px 0;
+}
+
+.activity-detail-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  background-color: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.activity-detail-meta-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.activity-detail-meta-value {
+  font-size: 15px;
+  color: #1e293b;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.activity-detail-section {
+  margin-bottom: 24px;
+}
+
+.activity-detail-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.activity-detail-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4b5563;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.activity-detail-contact-box {
+  padding: 16px;
+  background-color: #eff6ff;
+  border-radius: 12px;
+  border: 1px solid #bfdbfe;
+}
+
+.activity-detail-contact-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 4px;
+}
+
+.activity-detail-contact-value {
+  font-size: 15px;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .activity-detail-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}

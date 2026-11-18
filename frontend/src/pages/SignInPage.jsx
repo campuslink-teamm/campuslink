@@ -77,7 +77,15 @@ export default function SignInPage() {
                 onChange={(event) => setPassword(event.target.value)}
                 required
               />
-
+              <div className="auth-forgot-password">
+              <button
+                type="button"
+                className="auth-link"
+                onClick={() => navigate('/forgot-password')}
+              >
+                Pamiršau slaptažodį?
+              </button>
+            </div>
               {errorMessage && (
                 <p role="alert" style={{ color: 'red' }}>
                   {errorMessage}
