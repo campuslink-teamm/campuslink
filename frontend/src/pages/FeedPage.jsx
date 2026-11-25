@@ -1,24 +1,49 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
-import { mockActivities } from '../data/mockActivities';
-
-// Nedo sukurta atsijungimo funkcija
+import { getActivities } from '../services/activityService';
 import { logoutUser } from '../services/authenticationService';
 
 import './FeedPage.css';
 
 export default function FeedPage() {
-  const [activities] = useState(mockActivities);
-
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [loggingOut, setLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState('');
-
   const navigate = useNavigate();
 
-  // Atsijungimo funkcija
+  useEffect(() => {
+    let active = true;
+
+    async function loadActivities() {
+      try {
+        const data = await getActivities();
+        if (active) {
+          setActivities(data);
+          setLoadError('');
+        }
+      } catch (error) {
+        if (active) {
+          setLoadError(error.message || 'Nepavyko įkelti veiklų.');
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadActivities();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   async function handleLogout() {
     setLoggingOut(true);
     setLogoutError('');
@@ -30,7 +55,7 @@ export default function FeedPage() {
       // Grąžiname naudotoją į Homepage
       navigate('/', { replace: true });
 
-    } catch (error) {
+    } catch {
       setLogoutError(
         'Nepavyko atsijungti. Bandykite dar kartą.'
       );
@@ -63,29 +88,21 @@ export default function FeedPage() {
 
         <nav className="feed-nav">
 
-          <span
-            className="nav-link"
-            onClick={() => navigate('/feed')}
-            style={{ cursor: 'pointer' }}
-          >
+          <button className="nav-link" onClick={() => navigate('/feed')}>
             Pagrindinis
-          </span>
-
-          <span className="nav-link active">
-            Sukurti skelbimą
-          </span>
-
-          <span className="nav-link">
-            Mano skelbimai
-          </span>
-
-          <span
+          </button>
+          <button
+            className="nav-link"
+            onClick={() => navigate('/create')}
+          >
+            Sukurti veiklą
+          </button>
+          <button
             className="nav-link"
             onClick={() => navigate('/profile')}
-            style={{ cursor: 'pointer' }}
           >
             Mano profilis
-          </span>
+          </button>
 
         </nav>
 
@@ -103,7 +120,7 @@ export default function FeedPage() {
 
         <div>
           <h1 className="feed-title">
-            Studentų skelbimai
+            Studentų veiklos
           </h1>
 
           <p className="feed-subtitle">
@@ -112,7 +129,7 @@ export default function FeedPage() {
         </div>
 
         <Button onClick={() => navigate('/create')}>
-          + Sukurti skelbimą
+          + Sukurti veiklą
         </Button>
 
       </div>
@@ -120,32 +137,31 @@ export default function FeedPage() {
       {/* Skelbimų tinklelis */}
       <div className="activities-grid">
 
-        {activities.length > 0 ? (
-
+        {loading ? (
+          <p className="activities-status">Kraunamos veiklos...</p>
+        ) : loadError ? (
+          <div className="activities-status" role="alert">
+            <p>{loadError}</p>
+            <Button onClick={() => window.location.reload()}>
+              Bandyti dar kartą
+            </Button>
+          </div>
+        ) : activities.length > 0 ? (
           activities.map((activity) => (
             <ActivityCard
               key={activity.id}
               activity={activity}
+              onClick={() => navigate(`/activities/${activity.id}`)}
             />
           ))
-
         ) : (
-
-          <div
-            className="no-activities"
-            style={{
-              gridColumn: '1 / -1',
-              textAlign: 'center',
-              padding: '40px',
-              color: '#6b7280'
-            }}
-          >
+          <div className="no-activities">
             <p>
               Šiuo metu aktyvių veiklų nėra.
             </p>
 
             <p>
-              Būk pirmas ir sukurk naują skelbimą!
+              Būk pirmas ir sukurk naują veiklą!
             </p>
           </div>
 

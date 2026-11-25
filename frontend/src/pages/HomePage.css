@@ -17,7 +17,7 @@
 /* Logotipas viršutiniame kairiajame kampe */
 
 .home-header {
-  padding: 20px, 20px, 5%;
+  padding: 20px 5%;
 }
 
 .home-logo {
@@ -80,6 +80,17 @@
   padding: 18px 32px;
   font-size: 22px;
   font-weight: 700;
+}
+
+.home-config-warning {
+  max-width: 640px;
+  margin-top: 24px;
+  padding: 12px 16px;
+  border: 1px solid #b45309;
+  border-radius: 8px;
+  background: #fffbeb;
+  color: #78350f;
+  font-size: 14px;
 }
 
 /* Telefonams */

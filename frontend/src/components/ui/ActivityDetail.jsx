@@ -1,80 +1,56 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import BaseCard from "./BaseCard";
 import Button from "./Button";
+import { getActivityById } from "../../services/activityService";
 import "./ActivityDetail.css";
 
-// Testiniai duomenys, kol Eimanto DB užklausa dar neprijungta
-const MOCK_DB = {
-  "1": {
-    id: "1",
-    title: "Stalo teniso turnyras",
-    category: "Laisvalaikis",
-    location: "Saulėtekio al. 9, II rūmai",
-    date: "2026-11-20",
-    description:
-      "Kviečiame visus studentus į draugišką stalo teniso turnyrą! Raketes turėsime vietoje, bet galite atsinešti ir savo. Laukia prizai ir gera nuotaika.",
-    contactInformation: "organizatoriai@stud.vu.lt | +370 612 34567",
-  },
-  "2": {
-    id: "2",
-    title: "Parduodami aukštosios matematikos vadovėliai",
-    category: "Vadovėliai",
-    location: "Centrinė biblioteka",
-    date: "2026-11-16",
-    description:
-      "Parduodu puikios būklės tiesinės algebros ir matematinės analizės pratybų bei teorijos knygas. Kaina už abi – 15 EUR.",
-    contactInformation: "studentas@universitetas.lt",
-  },
-};
-
 export default function ActivityDetail({ activityId, onBack }) {
-  const [activity, setActivity] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [result, setResult] = useState({
+    activityId: null,
+    activity: null,
+    loading: true,
+    error: null,
+  });
 
   useEffect(() => {
     if (!activityId) return;
 
-    setLoading(true);
-    setError(null);
-    setActivity(null);
+    let active = true;
 
     const fetchActivityDetails = async () => {
       try {
-        /* 
-        // --- 3 PUNKTAS: Eimanto DB užklausa pagal skelbimo ID ---
-        const response = await fetch(`http://localhost:5000/api/activities/${activityId}`);
-        
-        if (response.status === 404) {
-          setActivity(null);
-          setLoading(false);
-          return;
+        const found = await getActivityById(activityId);
+        if (active) {
+          setResult({
+            activityId,
+            activity: found || null,
+            loading: false,
+            error: null,
+          });
         }
-        
-        if (!response.ok) {
-          throw new Error("Nepavyko užkrauti skelbimo duomenų iš serverio.");
-        }
-        
-        const data = await response.json();
-        setActivity(data);
-        */
-
-        // --- TESTAVIMO SIMULIACIJA ---
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        if (activityId === "error") {
-          throw new Error("Serverio ryšio klaida. Bandykite vėliau.");
-        }
-        const found = MOCK_DB[String(activityId)];
-        setActivity(found || null);
       } catch (err) {
-        setError(err.message || "Įvyko netikėta klaida.");
-      } finally {
-        setLoading(false);
+        if (active) {
+          setResult({
+            activityId,
+            activity: null,
+            loading: false,
+            error: err.message || "Nepavyko užkrauti veiklos.",
+          });
+        }
       }
     };
 
     fetchActivityDetails();
+
+    return () => {
+      active = false;
+    };
   }, [activityId]);
+
+  const currentResult = result.activityId === activityId
+    ? result
+    : { activity: null, loading: true, error: null };
+  const { activity, loading, error } = currentResult;
 
   return (
     <div className="activity-detail-container">
@@ -138,7 +114,7 @@ export default function ActivityDetail({ activityId, onBack }) {
 
             <h1 className="activity-detail-title">{activity.title}</h1>
 
-            {(activity.location || activity.date) && (
+            {(activity.location || activity.starts_at) && (
               <div className="activity-detail-meta-grid">
                 {activity.location && (
                   <div>
@@ -148,11 +124,14 @@ export default function ActivityDetail({ activityId, onBack }) {
                     </div>
                   </div>
                 )}
-                {activity.date && (
+                {activity.starts_at && (
                   <div>
                     <div className="activity-detail-meta-label">Data</div>
                     <div className="activity-detail-meta-value">
-                     {activity.date_time || activity.date}
+                      {new Date(activity.starts_at).toLocaleString('lt-LT', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                      })}
                     </div>
                   </div>
                 )}
@@ -166,16 +145,6 @@ export default function ActivityDetail({ activityId, onBack }) {
               </p>
             </div>
 
-            {activity.contactInformation && (
-              <div className="activity-detail-contact-box">
-                <div className="activity-detail-contact-label">
-                  Kontaktinė informacija
-                </div>
-                <div className="activity-detail-contact-value">
-                  {activity.contactInformation}
-                </div>
-              </div>
-            )}
           </div>
         )}
       </BaseCard>

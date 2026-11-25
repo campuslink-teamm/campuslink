@@ -5,7 +5,7 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import BaseCard from '../components/ui/BaseCard';
 
-import { supabaseClient } from '../supabase/supabaseClient';
+import { getSupabaseClient } from '../supabase/supabaseClient';
 import { updateUserPassword } from '../services/authenticationService';
 
 import './AuthPage.css';
@@ -43,7 +43,7 @@ export default function ResetPasswordPage() {
     try {
       // Patikriname, ar naudotojas turi galiojančią sesiją
       const { data, error: sessionError } =
-        await supabaseClient.auth.getSession();
+        await getSupabaseClient().auth.getSession();
 
       if (sessionError || !data.session) {
         setErrorMessage(

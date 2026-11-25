@@ -1,11 +1,11 @@
 
-import { supabaseClient } from '../supabase/supabaseClient';
+import { getSupabaseClient } from '../supabase/supabaseClient';
 
 // Get the currently signed-in student's profile
 export async function getCurrentUserProfile() {
   // 1. Get the authenticated user
   const { data: authData, error: authError } =
-    await supabaseClient.auth.getUser();
+    await getSupabaseClient().auth.getUser();
 
   if (authError) {
     throw authError;
@@ -19,8 +19,8 @@ export async function getCurrentUserProfile() {
 
   // 2. Get the student's profile information
   const { data: profile, error: profileError } =
-    await supabaseClient
-      .from('PROFILES')
+    await getSupabaseClient()
+      .from('profiles')
       .select('first_name, last_name, phone_number')
       .eq('id', user.id)
       .maybeSingle();
@@ -29,12 +29,12 @@ export async function getCurrentUserProfile() {
     throw profileError;
   }
 
-  // 3. Count listings created by this student
+  // 3. Count activities created by this student
   const { count, error: listingsError } =
-    await supabaseClient
-      .from('LISTINGS')
+    await getSupabaseClient()
+      .from('activities')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id);
+      .eq('author_id', user.id);
 
   if (listingsError) {
     throw listingsError;
@@ -47,7 +47,7 @@ export async function getCurrentUserProfile() {
     firstName: profile?.first_name ?? '',
     lastName: profile?.last_name ?? '',
     phoneNumber: profile?.phone_number ?? '',
-    listingsCount: count ?? 0,
+    activitiesCount: count ?? 0,
   };
 }
 // Update the currently signed-in student's profile
@@ -58,7 +58,7 @@ export async function updateCurrentUserProfile({
 }) {
   // 1. Get the authenticated user
   const { data: authData, error: authError } =
-    await supabaseClient.auth.getUser();
+    await getSupabaseClient().auth.getUser();
 
   if (authError) {
     throw authError;
@@ -71,12 +71,11 @@ export async function updateCurrentUserProfile({
   }
 
   // 2. Save profile information to Supabase
-  const { data, error } = await supabaseClient
-    .from('PROFILES')
+  const { data, error } = await getSupabaseClient()
+    .from('profiles')
     .upsert(
       {
         id: user.id,
-        email: user.email,
         first_name: firstName.trim(),
         last_name: lastName.trim(),
         phone_number: phoneNumber.trim(),

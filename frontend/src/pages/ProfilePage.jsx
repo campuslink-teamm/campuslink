@@ -196,8 +196,8 @@ export default function ProfilePage() {
 
             <div className="profile-stats">
               <div>
-                <span>📋 Mano skelbimai</span>
-                <strong>{profile.listingsCount}</strong>
+                <span>📋 Mano veiklos</span>
+                <strong>{profile.activitiesCount}</strong>
               </div>
             </div>
 
