@@ -1,24 +1,49 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
-import { mockActivities } from '../data/mockActivities';
-
-// Nedo sukurta atsijungimo funkcija
+import { getActivities } from '../services/activityService';
 import { logoutUser } from '../services/authenticationService';
 
 import './FeedPage.css';
 
 export default function FeedPage() {
-  const [activities] = useState(mockActivities);
-
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [loggingOut, setLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState('');
-
   const navigate = useNavigate();
 
-  // Atsijungimo funkcija
+  useEffect(() => {
+    let active = true;
+
+    async function loadActivities() {
+      try {
+        const data = await getActivities();
+        if (active) {
+          setActivities(data);
+          setLoadError('');
+        }
+      } catch (error) {
+        if (active) {
+          setLoadError(error.message || 'Nepavyko įkelti veiklų.');
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadActivities();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   async function handleLogout() {
     setLoggingOut(true);
     setLogoutError('');
@@ -30,7 +55,7 @@ export default function FeedPage() {
       // Grąžiname naudotoją į Homepage
       navigate('/', { replace: true });
 
-    } catch (error) {
+    } catch {
       setLogoutError(
         'Nepavyko atsijungti. Bandykite dar kartą.'
       );
@@ -69,34 +94,34 @@ export default function FeedPage() {
         </div>
 
         <nav className="feed-nav">
-          <span
-            className="nav-link active"
+          <button 
+            className="nav-link active" 
             onClick={() => navigate('/feed')}
           >
             Pagrindinis
-          </span>
+          </button>
 
-          <span
+          <button
             className="nav-link"
             onClick={() => navigate('/create')}
           >
             Sukurti skelbimą
-          </span>
+          </button>
 
           {/* Nukreipimas į tavo sukurtą Mano skelbimų puslapį */}
-          <span
+          <button
             className="nav-link"
             onClick={() => navigate('/my-listings')}
           >
             Mano skelbimai
-          </span>
+          </button>
 
-          <span
+          <button
             className="nav-link"
             onClick={() => navigate('/profile')}
           >
             Mano profilis
-          </span>
+          </button>
         </nav>
 
       </header>
@@ -131,26 +156,25 @@ export default function FeedPage() {
         {/* Skelbimų tinklelis */}
         <div className="activities-grid">
 
-          {activities.length > 0 ? (
-
+          {loading ? (
+            <p className="activities-status">Kraunamos veiklos...</p>
+          ) : loadError ? (
+            <div className="activities-status" role="alert">
+              <p>{loadError}</p>
+              <Button onClick={() => window.location.reload()}>
+                Bandyti dar kartą
+              </Button>
+            </div>
+          ) : activities.length > 0 ? (
             activities.map((activity) => (
               <ActivityCard
                 key={activity.id}
                 activity={activity}
+                onClick={() => navigate(`/activities/${activity.id}`)}
               />
             ))
-
           ) : (
-
-            <div
-              className="no-activities"
-              style={{
-                gridColumn: '1 / -1',
-                textAlign: 'center',
-                padding: '40px',
-                color: '#5b4860'
-              }}
-            >
+            <div className="no-activities">
               <p>
                 Šiuo metu aktyvių veiklų nėra.
               </p>
@@ -159,7 +183,6 @@ export default function FeedPage() {
                 Būk pirmas ir sukurk naują skelbimą!
               </p>
             </div>
-
           )}
 
         </div>
