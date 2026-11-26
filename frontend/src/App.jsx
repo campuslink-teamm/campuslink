@@ -16,6 +16,7 @@ import FeedPage from './pages/FeedPage';
 import ProfilePage from './pages/ProfilePage';
 import MyListingsPage from './pages/MyListingsPage'; // Pridėtas Mano skelbimų puslapio importas
 import CreateActivityForm from './components/ui/CreateActivityForm';
+import TripsPage from './pages/TripPage';
 import ActivityDetail from './components/ui/ActivityDetail';
 
 // Puslapių apsauga
@@ -38,6 +39,15 @@ export default function App() {
           element={
             <ProtectedRoute>
               <FeedPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/trips"
+          element={
+            <ProtectedRoute>
+              <TripsPage />
             </ProtectedRoute>
           }
         />
