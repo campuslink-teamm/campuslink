@@ -120,6 +120,16 @@
   padding: 40px;
 }
 
+.activities-status {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 40px;
+  color: #6b7280;
+  text-align: center;
+}
+
 /* 📱 Mobiliųjų ekranų pritaikymas (Responsive design) */
 @media (max-width: 992px) {
   .activities-grid {

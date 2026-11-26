@@ -52,14 +52,10 @@ Sukurti veikiančią internetinės platformos pradinę versiją (**MVP**), apima
 
 ## Technologijos
 
-Technologijų rinkinys **dar nepatvirtintas**. Komanda iki spalio 23 d. pasirinks ir pristatys:
-
-- **Frontend:** bus patikslinta.
-- **Backend:** bus patikslinta.
-- **Duomenų bazė:** bus patikslinta.
-- **Serveris / talpinimas:** bus patikslinta.
-
-Pasirinkę technologijas, šioje vietoje papildysime ir projekto paleidimo instrukciją.
+- **Frontend:** React ir Vite (`frontend/`).
+- **Prisijungimas ir duomenys:** Supabase Auth ir PostgreSQL.
+- **Talpinimas:** Vercel (frontend); MVP veiklų duomenys pasiekiami tiesiogiai per Supabase klientą.
+- **Express backend:** šiuo metu frontend veiklų ir profilio funkcijoms nereikalingas.
 
 ## Kaip dirbame su kodu
 
@@ -82,7 +78,30 @@ Pasirinkę technologijas, šioje vietoje papildysime ir projekto paleidimo instr
    git clone https://github.com/campuslink-team/campuslink.git
    ```
 
-4. Kol neparinktos technologijos, **projekto paleidimo komandų nėra**. Jas pridėsime sukūrę pirmą veikiančią frontend ir backend versiją.
+4. Supabase projekto SQL redaktoriuje paleiskite
+   [`supabase/migrations/20261122213000_initial_schema.sql`](./supabase/migrations/20261122213000_initial_schema.sql).
+   Tai sukuria `profiles` ir `activities` lenteles bei jų Row Level Security politikas.
+5. Nukopijuokite `frontend/.env.example` į `frontend/.env.local` ir įrašykite
+   `VITE_SUPABASE_URL` bei `VITE_SUPABASE_PUBLISHABLE_KEY` reikšmes iš Supabase
+   projekto. Šių tikrų reikšmių į Git nedėkite.
+6. Paleiskite frontend:
+
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+### Diegimas Vercel
+
+1. Importuokite GitHub saugyklą Vercel ir nustatykite **Root Directory** į `frontend`.
+2. Naudokite Vite nustatymus: build komanda `npm run build`, output katalogas `dist`.
+3. Vercel projekto **Settings → Environment Variables** pridėkite
+   `VITE_SUPABASE_URL` ir `VITE_SUPABASE_PUBLISHABLE_KEY` Production bei Preview aplinkoms.
+4. Supabase Auth URL nustatymuose įrašykite Vercel domeną kaip **Site URL** ir
+   leiskite slaptažodžio atkūrimo adresą `https://jusu-domenas.vercel.app/reset-password`.
+5. Perleiskite Vercel deployment. `frontend/vercel.json` nukreipia React Router
+   kelius į SPA įėjimo puslapį.
 
 ## Projekto dokumentacija
 

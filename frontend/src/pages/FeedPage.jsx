@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
-import { getActivities } from '../services/listingService';
+import { getActivities } from '../services/activityService';
 import { logoutUser } from '../services/authenticationService';
 
 import './FeedPage.css';
@@ -92,7 +92,7 @@ export default function FeedPage() {
             className="nav-link"
             onClick={() => navigate('/create')}
           >
-            Sukurti skelbimą
+            Sukurti veiklą
           </button>
 
           <button
@@ -121,7 +121,7 @@ export default function FeedPage() {
         <div className="feed-top-section">
           <div>
             <h1 className="feed-title">
-              Studentų skelbimai
+              Studentų veiklos
             </h1>
             <p className="feed-subtitle">
               Peržiūrėk kitų studentų veiklas ir prisijunk!
@@ -129,7 +129,7 @@ export default function FeedPage() {
           </div>
 
           <Button onClick={() => navigate('/create')}>
-            + Sukurti skelbimą
+            + Sukurti veiklą
           </Button>
         </div>
 
@@ -154,7 +154,7 @@ export default function FeedPage() {
           ) : (
             <div className="no-activities">
               <p>Šiuo metu aktyvių veiklų nėra.</p>
-              <p>Būk pirmas ir sukurk naują skelbimą!</p>
+              <p>Būk pirmas ir sukurk naują veiklą!</p>
             </div>
           )}
         </div>

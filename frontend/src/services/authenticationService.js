@@ -1,9 +1,9 @@
 
-import { supabaseClient } from '../supabase/supabaseClient';
+import { getSupabaseClient } from '../supabase/supabaseClient';
 
 // Student registration
 export async function registerUser(email, password) {
-  const { data, error } = await supabaseClient.auth.signUp({
+  const { data, error } = await getSupabaseClient().auth.signUp({
     email: email,
     password: password,
   });
@@ -18,7 +18,7 @@ export async function registerUser(email, password) {
 // Student login
 export async function loginUser(email, password) {
   const { data, error } =
-    await supabaseClient.auth.signInWithPassword({
+    await getSupabaseClient().auth.signInWithPassword({
       email: email,
       password: password,
     });
@@ -32,7 +32,7 @@ export async function loginUser(email, password) {
 
 // Student logout
 export async function logoutUser() {
-  const { error } = await supabaseClient.auth.signOut();
+  const { error } = await getSupabaseClient().auth.signOut();
 
   if (error) {
     throw error;
@@ -41,7 +41,7 @@ export async function logoutUser() {
 
 // Check current session
 export async function getCurrentUserSession() {
-  const { data, error } = await supabaseClient.auth.getSession();
+  const { data, error } = await getSupabaseClient().auth.getSession();
 
   if (error) {
     throw error;
@@ -52,7 +52,7 @@ export async function getCurrentUserSession() {
 // Siųsti slaptažodžio atkūrimo laišką
 export async function sendPasswordResetEmail(email) {
   const { error } =
-    await supabaseClient.auth.resetPasswordForEmail(email, {
+    await getSupabaseClient().auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`
     });
 
@@ -62,7 +62,7 @@ export async function sendPasswordResetEmail(email) {
 }
 // Pakeisti prisijungusio naudotojo slaptažodį
 export async function updateUserPassword(newPassword) {
-  const { error } = await supabaseClient.auth.updateUser({
+  const { error } = await getSupabaseClient().auth.updateUser({
     password: newPassword
   });
 

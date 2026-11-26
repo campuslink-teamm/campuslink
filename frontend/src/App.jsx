@@ -1,12 +1,13 @@
 
-import React from 'react';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
+  Navigate,
+  useNavigate,
+  useParams
 } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
@@ -15,6 +16,7 @@ import RegisterPage from './pages/RegisterPage';
 import FeedPage from './pages/FeedPage';
 import ProfilePage from './pages/ProfilePage';
 import CreateActivityForm from './components/ui/CreateActivityForm';
+import ActivityDetail from './components/ui/ActivityDetail';
 
 // Puslapių apsauga
 import ProtectedRoute from './components/ProtectedRoute';
@@ -47,6 +49,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/activities/:activityId"
+          element={
+            <ProtectedRoute>
+              <ActivityDetailRoute />
+            </ProtectedRoute>
+          }
+        />
         {/* Naudotojo profilis */}
         <Route
           path="/profile"
@@ -60,5 +70,17 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
+  );
+}
+
+function ActivityDetailRoute() {
+  const { activityId } = useParams();
+  const navigate = useNavigate();
+
+  return (
+    <ActivityDetail
+      activityId={activityId}
+      onBack={() => navigate('/feed')}
+    />
   );
 }
