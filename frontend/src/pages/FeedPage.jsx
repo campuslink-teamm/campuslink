@@ -49,17 +49,10 @@ export default function FeedPage() {
     setLogoutError('');
 
     try {
-      // Atsijungiame per Supabase
       await logoutUser();
-
-      // Grąžiname naudotoją į Homepage
       navigate('/', { replace: true });
-
     } catch {
-      setLogoutError(
-        'Nepavyko atsijungti. Bandykite dar kartą.'
-      );
-
+      setLogoutError('Nepavyko atsijungti. Bandykite dar kartą.');
     } finally {
       setLoggingOut(false);
     }
@@ -68,11 +61,8 @@ export default function FeedPage() {
   return (
     <div className="auth-page feed-page-wrapper">
 
-      {/* Viršutinė juosta (Header) su logotipu, navigacija ir atsijungimu */}
       <header className="auth-header feed-header">
-
         <div className="feed-header-left">
-          {/* Tikrasis logo paveikslėlis, derantis prie prisijungimo lango */}
           <button
             className="auth-logo-button"
             type="button"
@@ -85,10 +75,7 @@ export default function FeedPage() {
             />
           </button>
 
-          <Button
-            onClick={handleLogout}
-            disabled={loggingOut}
-          >
+          <Button onClick={handleLogout} disabled={loggingOut}>
             {loggingOut ? 'Atsijungiama...' : 'Atsijungti'}
           </Button>
         </div>
@@ -108,7 +95,6 @@ export default function FeedPage() {
             Sukurti skelbimą
           </button>
 
-          {/* Nukreipimas į tavo sukurtą Mano skelbimų puslapį */}
           <button
             className="nav-link"
             onClick={() => navigate('/my-listings')}
@@ -123,25 +109,20 @@ export default function FeedPage() {
             Mano profilis
           </button>
         </nav>
-
       </header>
 
-      {/* Klaidos pranešimas */}
       {logoutError && (
         <p className="feed-logout-error" role="alert">
           {logoutError}
         </p>
       )}
 
-      {/* Pagrindinė puslapio dalis */}
       <div className="feed-main-content">
         <div className="feed-top-section">
-
           <div>
             <h1 className="feed-title">
               Studentų skelbimai
             </h1>
-
             <p className="feed-subtitle">
               Peržiūrėk kitų studentų veiklas ir prisijunk!
             </p>
@@ -150,12 +131,9 @@ export default function FeedPage() {
           <Button onClick={() => navigate('/create')}>
             + Sukurti skelbimą
           </Button>
-
         </div>
 
-        {/* Skelbimų tinklelis */}
         <div className="activities-grid">
-
           {loading ? (
             <p className="activities-status">Kraunamos veiklos...</p>
           ) : loadError ? (
@@ -175,16 +153,10 @@ export default function FeedPage() {
             ))
           ) : (
             <div className="no-activities">
-              <p>
-                Šiuo metu aktyvių veiklų nėra.
-              </p>
-
-              <p>
-                Būk pirmas ir sukurk naują skelbimą!
-              </p>
+              <p>Šiuo metu aktyvių veiklų nėra.</p>
+              <p>Būk pirmas ir sukurk naują skelbimą!</p>
             </div>
           )}
-
         </div>
       </div>
 

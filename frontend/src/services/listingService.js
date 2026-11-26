@@ -1,9 +1,9 @@
-import { supabaseClient } from '../supabase/supabaseClient';
+import { getSupabaseClient } from '../supabase/supabaseClient';
 
-// Get all listings for the feed page (visi skelbimai pagrindiniam puslapiui)
+// Get all listings for the feed page
 export async function getActivities() {
   const { data: listings, error: listingsError } =
-    await supabaseClient
+    await getSupabaseClient()
       .from('LISTINGS')
       .select(`
         id,
@@ -24,11 +24,10 @@ export async function getActivities() {
   return listings ?? [];
 }
 
-// Get listings created by the currently signed-in user (tik prisijungusio vartotojo skelbimai)
-export async function getCurrentUserListings() {
-  // 1. Get the authenticated user
+// Get activities created by the currently signed-in user
+export async function getCurrentUserActivities() {
   const { data: authData, error: authError } =
-    await supabaseClient.auth.getUser();
+    await getSupabaseClient().auth.getUser();
 
   if (authError) {
     throw authError;
@@ -40,27 +39,25 @@ export async function getCurrentUserListings() {
     throw new Error('User is not signed in.');
   }
 
-  // 2. Get only this user's listings
-  const { data: listings, error: listingsError } =
-    await supabaseClient
-      .from('LISTINGS')
+  const { data: activities, error: activitiesError } =
+    await getSupabaseClient()
+      .from('activities')
       .select(`
         id,
-        user_id,
-        category_id,
+        author_id,
+        category,
         title,
         description,
-        contact_info,
-        created_at,
-        image_urls
+        location,
+        starts_at,
+        created_at
       `)
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
+      .eq('author_id', user.id)
+      .order('starts_at', { ascending: true });
 
-  if (listingsError) {
-    throw listingsError;
+  if (activitiesError) {
+    throw activitiesError;
   }
 
-  // 3. Return an empty array if the user has no listings
-  return listings ?? [];
+  return activities ?? [];
 }
