@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
-import { getActivities } from '../services/activityService';
+import { getActivities } from '../services/listingService';
 import { logoutUser } from '../services/authenticationService';
 
 import './FeedPage.css';

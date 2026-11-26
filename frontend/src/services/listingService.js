@@ -1,6 +1,30 @@
 import { supabaseClient } from '../supabase/supabaseClient';
 
-// Get listings created by the currently signed-in user
+// Get all listings for the feed page (visi skelbimai pagrindiniam puslapiui)
+export async function getActivities() {
+  const { data: listings, error: listingsError } =
+    await supabaseClient
+      .from('LISTINGS')
+      .select(`
+        id,
+        user_id,
+        category_id,
+        title,
+        description,
+        contact_info,
+        created_at,
+        image_urls
+      `)
+      .order('created_at', { ascending: false });
+
+  if (listingsError) {
+    throw listingsError;
+  }
+
+  return listings ?? [];
+}
+
+// Get listings created by the currently signed-in user (tik prisijungusio vartotojo skelbimai)
 export async function getCurrentUserListings() {
   // 1. Get the authenticated user
   const { data: authData, error: authError } =
