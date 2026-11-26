@@ -49,124 +49,115 @@ export default function FeedPage() {
     setLogoutError('');
 
     try {
-      // Atsijungiame per Supabase
       await logoutUser();
-
-      // Grąžiname naudotoją į Homepage
       navigate('/', { replace: true });
-
     } catch {
-      setLogoutError(
-        'Nepavyko atsijungti. Bandykite dar kartą.'
-      );
-
+      setLogoutError('Nepavyko atsijungti. Bandykite dar kartą.');
     } finally {
       setLoggingOut(false);
     }
   }
 
   return (
-    <div className="feed-page">
+    <div className="auth-page feed-page-wrapper">
 
-      {/* Viršutinė juosta */}
-      <header className="feed-header">
-
+      <header className="auth-header feed-header">
         <div className="feed-header-left">
-
-          <h2 className="feed-logo">
-            CampusLink
-          </h2>
-
-          <Button
-            onClick={handleLogout}
-            disabled={loggingOut}
+          <button
+            className="auth-logo-button"
+            type="button"
+            onClick={() => navigate('/')}
           >
+            <img
+              src="/images/logo.png"
+              alt="CampusLink"
+              className="auth-logo"
+            />
+          </button>
+
+          <Button onClick={handleLogout} disabled={loggingOut}>
             {loggingOut ? 'Atsijungiama...' : 'Atsijungti'}
           </Button>
-
         </div>
 
         <nav className="feed-nav">
-
-          <button className="nav-link" onClick={() => navigate('/feed')}>
+          <button 
+            className="nav-link active" 
+            onClick={() => navigate('/feed')}
+          >
             Pagrindinis
           </button>
+
           <button
             className="nav-link"
             onClick={() => navigate('/create')}
           >
             Sukurti veiklą
           </button>
+
+          <button
+            className="nav-link"
+            onClick={() => navigate('/my-listings')}
+          >
+            Mano skelbimai
+          </button>
+
           <button
             className="nav-link"
             onClick={() => navigate('/profile')}
           >
             Mano profilis
           </button>
-
         </nav>
-
       </header>
 
-      {/* Klaidos pranešimas */}
       {logoutError && (
         <p className="feed-logout-error" role="alert">
           {logoutError}
         </p>
       )}
 
-      {/* Pagrindinė puslapio dalis */}
-      <div className="feed-top-section">
+      <div className="feed-main-content">
+        <div className="feed-top-section">
+          <div>
+            <h1 className="feed-title">
+              Studentų veiklos
+            </h1>
+            <p className="feed-subtitle">
+              Peržiūrėk kitų studentų veiklas ir prisijunk!
+            </p>
+          </div>
 
-        <div>
-          <h1 className="feed-title">
-            Studentų veiklos
-          </h1>
-
-          <p className="feed-subtitle">
-            Peržiūrėk kitų studentų veiklas ir prisijunk!
-          </p>
+          <Button onClick={() => navigate('/create')}>
+            + Sukurti veiklą
+          </Button>
         </div>
 
-        <Button onClick={() => navigate('/create')}>
-          + Sukurti veiklą
-        </Button>
-
-      </div>
-
-      {/* Skelbimų tinklelis */}
-      <div className="activities-grid">
-
-        {loading ? (
-          <p className="activities-status">Kraunamos veiklos...</p>
-        ) : loadError ? (
-          <div className="activities-status" role="alert">
-            <p>{loadError}</p>
-            <Button onClick={() => window.location.reload()}>
-              Bandyti dar kartą
-            </Button>
-          </div>
-        ) : activities.length > 0 ? (
-          activities.map((activity) => (
-            <ActivityCard
-              key={activity.id}
-              activity={activity}
-              onClick={() => navigate(`/activities/${activity.id}`)}
-            />
-          ))
-        ) : (
-          <div className="no-activities">
-            <p>
-              Šiuo metu aktyvių veiklų nėra.
-            </p>
-
-            <p>
-              Būk pirmas ir sukurk naują veiklą!
-            </p>
-          </div>
-
-        )}
-
+        <div className="activities-grid">
+          {loading ? (
+            <p className="activities-status">Kraunamos veiklos...</p>
+          ) : loadError ? (
+            <div className="activities-status" role="alert">
+              <p>{loadError}</p>
+              <Button onClick={() => window.location.reload()}>
+                Bandyti dar kartą
+              </Button>
+            </div>
+          ) : activities.length > 0 ? (
+            activities.map((activity) => (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                onClick={() => navigate(`/activities/${activity.id}`)}
+              />
+            ))
+          ) : (
+            <div className="no-activities">
+              <p>Šiuo metu aktyvių veiklų nėra.</p>
+              <p>Būk pirmas ir sukurk naują veiklą!</p>
+            </div>
+          )}
+        </div>
       </div>
 
     </div>

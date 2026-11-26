@@ -1,7 +1,7 @@
 import { getSupabaseClient } from '../supabase/supabaseClient';
 
-// Get activities created by the currently signed-in user
-export async function getCurrentUserActivities() {
+// Get listings created by the currently signed-in user
+export async function getCurrentUserListings() {
   // 1. Get the authenticated user
   const { data: authData, error: authError } =
     await getSupabaseClient().auth.getUser();
@@ -16,26 +16,27 @@ export async function getCurrentUserActivities() {
     throw new Error('User is not signed in.');
   }
 
-  // 2. Get only this user's activities
-  const { data: activities, error: activitiesError } =
+  // 2. Get only this user's listings
+  const { data: listings, error: listingsError } =
     await getSupabaseClient()
-      .from('activities')
+      .from('LISTINGS')
       .select(`
         id,
-        author_id,
-        category,
+        user_id,
+        category_id,
         title,
         description,
-        location,
-        starts_at,
-        created_at
+        contact_info,
+        created_at,
+        image_urls
       `)
-      .eq('author_id', user.id)
-      .order('starts_at', { ascending: true });
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
 
-  if (activitiesError) {
-    throw activitiesError;
+  if (listingsError) {
+    throw listingsError;
   }
 
-  return activities ?? [];
+  // 3. Return an empty array if the user has no listings
+  return listings ?? [];
 }
