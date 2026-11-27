@@ -16,21 +16,22 @@ export async function getCurrentUserListings() {
     throw new Error('User is not signed in.');
   }
 
-  // 2. Get only this user's listings
+  // 2. Get only this user's activity posts
   const { data: listings, error: listingsError } =
     await getSupabaseClient()
-      .from('LISTINGS')
+      .from('activities')
       .select(`
         id,
-        user_id,
-        category_id,
+        author_id,
+        category,
         title,
         description,
-        contact_info,
+        location,
+        starts_at,
         created_at,
         image_urls
       `)
-      .eq('user_id', user.id)
+      .eq('author_id', user.id)
       .order('created_at', { ascending: false });
 
   if (listingsError) {

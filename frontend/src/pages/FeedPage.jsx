@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
+import AuthenticatedHeader from '../components/AuthenticatedHeader';
 import { getActivities } from '../services/activityService';
-import { logoutUser } from '../services/authenticationService';
 
 import './FeedPage.css';
 
@@ -12,8 +12,6 @@ export default function FeedPage() {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
-  const [loggingOut, setLoggingOut] = useState(false);
-  const [logoutError, setLogoutError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,93 +42,12 @@ export default function FeedPage() {
     };
   }, []);
 
-  async function handleLogout() {
-    setLoggingOut(true);
-    setLogoutError('');
-
-    try {
-      // Atsijungiame per Supabase
-      await logoutUser();
-
-      // Grąžiname naudotoją į Homepage
-      navigate('/', { replace: true });
-
-    } catch {
-      setLogoutError(
-        'Nepavyko atsijungti. Bandykite dar kartą.'
-      );
-
-    } finally {
-      setLoggingOut(false);
-    }
-  }
-
   return (
     <div className="auth-page feed-page-wrapper">
-
-      {/* Viršutinė juosta */}
-      <header className="auth-header feed-header">
-
-        <div className="feed-header-left">
-
-          <h2 className="feed-logo">
-            CampusLink
-          </h2>
-
-          <Button
-            onClick={handleLogout}
-            disabled={loggingOut}
-          >
-            {loggingOut ? 'Atsijungiama...' : 'Atsijungti'}
-          </Button>
-
-        </div>
-
-        <nav className="feed-nav">
-
-          <button
-            className="nav-link"
-            type="button"
-            onClick={() => navigate('/trips')}
-          >
-            Kelionės
-          </button>
-          <button
-            className="nav-link active"
-            type="button"
-            aria-current="page"
-            onClick={() => navigate('/feed')}
-          >
-            Pagrindinis
-          </button>
-          <button
-            className="nav-link"
-            type="button"
-            onClick={() => navigate('/my-listings')}
-          >
-            Mano skelbimai
-          </button>
-          <button
-            className="nav-link"
-            type="button"
-            onClick={() => navigate('/profile')}
-          >
-            Mano profilis
-          </button>
-
-        </nav>
-
-      </header>
-
-      {/* Klaidos pranešimas */}
-      {logoutError && (
-        <p className="feed-logout-error" role="alert">
-          {logoutError}
-        </p>
-      )}
+      <AuthenticatedHeader />
 
       {/* Pagrindinė puslapio dalis */}
-      <div className="feed-main-content">
+      <main className="feed-main-content">
         <div className="feed-top-section">
 
           <div>
@@ -183,7 +100,7 @@ export default function FeedPage() {
           )}
 
         </div>
-      </div>
+      </main>
 
     </div>
   );

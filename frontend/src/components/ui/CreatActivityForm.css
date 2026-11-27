@@ -1,25 +1,89 @@
+.create-activity-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(255, 221, 241, 0.72), transparent 38%),
+    linear-gradient(145deg, #fff4f9 0%, #f8effb 52%, #fff6f8 100%);
+  color: #38213d;
+  color-scheme: light;
+}
+
 .create-activity-wrapper {
-  max-width: 720px;
-  margin: 40px auto;
-  padding: 0 16px;
+  width: min(100% - 32px, 760px);
+  margin: clamp(28px, 5vh, 52px) auto;
+  padding: 0;
   font-family: system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
 }
 
 .create-activity-header {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .create-activity-header h1 {
-  font-size: 28px;
+  color: #45124a;
+  font-size: clamp(30px, 4vw, 38px);
   font-weight: 800;
-  margin: 0 0 6px 0;
-  color: #111827;
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+  margin: 0 0 8px;
 }
 
 .create-activity-header p {
+  color: #69576d;
   font-size: 16px;
-  color: #4b5563;
   margin: 0;
+}
+
+.create-activity-page .campus-card {
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(157, 16, 160, 0.14);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 44px rgba(86, 35, 91, 0.13);
+  color: #38213d;
+}
+
+.create-activity-page .campus-input-label {
+  color: #49304e;
+  font-weight: 650;
+}
+
+.create-activity-page .campus-input {
+  min-height: 48px;
+  border: 1px solid #d8c6dc;
+  border-radius: 12px;
+  background: #fff;
+  color: #342238;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.create-activity-page .campus-input::placeholder {
+  color: #988b9b;
+}
+
+.create-activity-page .campus-input:focus {
+  border-color: #9d10a0;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(157, 16, 160, 0.14);
+}
+
+.create-activity-page input[type='file']::file-selector-button {
+  margin-right: 12px;
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 8px;
+  background: #f5e8f5;
+  color: #772477;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.create-activity-page input[type='file']::file-selector-button:hover {
+  background: #efdbef;
 }
 
 /* Du stulpeliai vienoje eilutėje */
@@ -45,27 +109,45 @@
 .form-actions-right {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .cancel-outline-btn {
-  background-color: white;
-  color: #374151;
-  border: 2px solid #d1d5db;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 500;
+  min-height: 48px;
+  padding: 11px 22px;
+  border: 1px solid #dfd1e2;
+  border-radius: 14px;
+  background: #fff;
+  color: #5e4b62;
+  font: inherit;
+  font-weight: 650;
   cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .cancel-outline-btn:hover {
-  background-color: #f3f4f6;
+  border-color: #cdb3d1;
+  background: #fbf5fc;
+}
+
+.cancel-outline-btn:focus-visible {
+  outline: 3px solid rgba(157, 16, 160, 0.25);
+  outline-offset: 2px;
+}
+
+.cancel-outline-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .form-error-text {
-  color: #e63946;
+  padding: 12px 14px;
+  border: 1px solid #f2b8c2;
+  border-radius: 10px;
+  background: #fff1f3;
+  color: #a51d3d;
   font-weight: 600;
   margin: 8px 0;
 }
@@ -80,4 +162,20 @@
 
 .activity-preview-box h3 {
   margin-top: 0;
+}
+
+@media (max-width: 600px) {
+  .create-activity-wrapper {
+    width: min(100% - 24px, 760px);
+    margin: 28px auto;
+  }
+
+  .create-activity-page .campus-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+
+  .form-actions-right > button {
+    flex: 1 1 150px;
+  }
 }

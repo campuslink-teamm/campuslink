@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
+import AuthenticatedHeader from '../components/AuthenticatedHeader';
 import Button from '../components/ui/Button';
-import { logoutUser } from '../services/authenticationService';
 import {
   cancelTrip,
   createTrip,
@@ -59,7 +58,6 @@ function formatPrice(value) {
 }
 
 export default function TripsPage() {
-  const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
   const [currentUserId, setCurrentUserId] = useState('');
   const [form, setForm] = useState(initialForm);
@@ -176,43 +174,10 @@ export default function TripsPage() {
     );
   }
 
-  async function handleLogout() {
-    setActionError('');
-
-    try {
-      await logoutUser();
-      navigate('/', { replace: true });
-    } catch (error) {
-      setActionError(
-        error.message || 'Nepavyko atsijungti. Bandykite dar kartą.'
-      );
-    }
-  }
-
   return (
-    <main className="trips-page">
-      <header className="trips-header">
-        <button
-          className="trips-brand"
-          type="button"
-          onClick={() => navigate('/feed')}
-          aria-label="Grįžti į CampusLink pagrindinį puslapį"
-        >
-          <img src="/images/logo.png" alt="CampusLink" />
-        </button>
-
-        <nav className="trips-nav" aria-label="Pagrindinė navigacija">
-          <button type="button" onClick={() => navigate('/feed')}>
-            Veiklos
-          </button>
-          <button type="button" onClick={() => navigate('/profile')}>
-            Mano profilis
-          </button>
-          <Button onClick={handleLogout}>Atsijungti</Button>
-        </nav>
-      </header>
-
-      <div className="trips-content">
+    <div className="trips-page">
+      <AuthenticatedHeader />
+      <main className="trips-content">
         <section className="trips-heading">
           <div>
             <p className="trips-eyebrow">Kelionės kartu</p>
@@ -506,7 +471,7 @@ export default function TripsPage() {
             </div>
           )}
         </section>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

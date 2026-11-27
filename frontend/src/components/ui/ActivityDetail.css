@@ -1,8 +1,31 @@
+.activity-detail-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(255, 221, 241, 0.72), transparent 38%),
+    linear-gradient(145deg, #fff4f9 0%, #f8effb 52%, #fff6f8 100%);
+  color: #38213d;
+  color-scheme: light;
+}
+
 .activity-detail-container {
-  max-width: 720px;
-  margin: 40px auto;
-  padding: 0 16px;
+  flex: 1;
+  width: min(100% - 32px, 760px);
+  margin: clamp(28px, 5vh, 52px) auto;
+  padding: 0;
   font-family: system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+}
+
+.activity-detail-container .campus-card {
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(157, 16, 160, 0.14);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 44px rgba(86, 35, 91, 0.13);
+  color: #38213d;
 }
 
 .activity-detail-nav {
@@ -13,20 +36,26 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: #ffffff;
-  color: #374151;
-  border: 2px solid #d1d5db;
-  border-radius: 12px;
+  min-height: 44px;
   padding: 10px 20px;
-  font-size: 15px;
-  font-weight: 600;
+  border: 1px solid #dfd1e2;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #5e4b62;
+  font: inherit;
+  font-weight: 650;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .activity-detail-back-btn:hover {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
+  border-color: #cdb3d1;
+  background: #fbf5fc;
+}
+
+.activity-detail-back-btn:focus-visible {
+  outline: 3px solid rgba(157, 16, 160, 0.25);
+  outline-offset: 2px;
 }
 
 /* Krovimosi, klaidos ir nerasto skelbimo būsenos */
@@ -38,8 +67,8 @@
 .activity-detail-spinner {
   width: 36px;
   height: 36px;
-  border: 4px solid #e5e7eb;
-  border-top-color: #2563eb;
+  border: 4px solid #f0e2f0;
+  border-top-color: #9d10a0;
   border-radius: 50%;
   margin: 0 auto 16px;
   animation: activity-spin 0.8s linear infinite;
@@ -54,26 +83,26 @@
 .activity-detail-loading-text {
   font-size: 16px;
   font-weight: 600;
-  color: #6b7280;
+  color: #69576d;
   margin: 0;
 }
 
 .activity-detail-error-title {
-  color: #e63946;
+  color: #a51d3d;
   margin: 0 0 8px 0;
   font-size: 20px;
   font-weight: 700;
 }
 
 .activity-detail-empty-title {
-  color: #1f2937;
+  color: #45124a;
   margin: 0 0 8px 0;
   font-size: 20px;
   font-weight: 700;
 }
 
 .activity-detail-status-desc {
-  color: #6b7280;
+  color: #69576d;
   margin: 0 0 20px 0;
   font-size: 15px;
 }
@@ -81,53 +110,65 @@
 /* Skelbimo turinys */
 .activity-detail-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
 .activity-detail-badge {
-  background-color: #dbeafe;
-  color: #1e40af;
-  padding: 4px 12px;
+  border: 1px solid rgba(157, 16, 160, 0.14);
+  background: #f7e8f5;
+  color: #792477;
+  padding: 6px 13px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 600;
 }
 
-.activity-detail-id {
-  font-size: 13px;
-  color: #9ca3af;
+.activity-detail-title {
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 800;
+  color: #45124a;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
 }
 
-.activity-detail-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #111827;
-  margin: 0 0 16px 0;
+.activity-detail-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.activity-detail-images img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  border: 1px solid rgba(157, 16, 160, 0.1);
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 .activity-detail-meta-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  background-color: #f8fafc;
+  background: #fbf6fc;
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #ead9eb;
   margin-bottom: 20px;
 }
 
 .activity-detail-meta-label {
   font-size: 12px;
-  color: #64748b;
+  color: #76677a;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .activity-detail-meta-value {
   font-size: 15px;
-  color: #1e293b;
+  color: #3c2b40;
   font-weight: 500;
   margin-top: 4px;
 }
@@ -139,39 +180,49 @@
 .activity-detail-section-title {
   font-size: 16px;
   font-weight: 700;
-  color: #374151;
+  color: #49304e;
   margin: 0 0 8px 0;
 }
 
 .activity-detail-description {
   font-size: 16px;
   line-height: 1.6;
-  color: #4b5563;
+  color: #5b4860;
   margin: 0;
   white-space: pre-line;
 }
 
 .activity-detail-contact-box {
   padding: 16px;
-  background-color: #eff6ff;
+  background: #fbf5fc;
   border-radius: 12px;
-  border: 1px solid #bfdbfe;
+  border: 1px solid #ead9eb;
 }
 
 .activity-detail-contact-label {
   font-size: 13px;
   font-weight: 700;
-  color: #1e40af;
+  color: #792477;
   margin-bottom: 4px;
 }
 
 .activity-detail-contact-value {
   font-size: 15px;
-  color: #1e3a8a;
+  color: #49304e;
   font-weight: 500;
 }
 
 @media (max-width: 600px) {
+  .activity-detail-container {
+    width: min(100% - 24px, 760px);
+    margin: 28px auto;
+  }
+
+  .activity-detail-container .campus-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+
   .activity-detail-meta-grid {
     grid-template-columns: 1fr;
   }

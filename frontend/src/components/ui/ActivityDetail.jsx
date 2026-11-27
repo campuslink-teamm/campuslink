@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AuthenticatedHeader from "../AuthenticatedHeader";
 import BaseCard from "./BaseCard";
 import Button from "./Button";
 import { getActivityById } from "../../services/activityService";
@@ -53,19 +54,21 @@ export default function ActivityDetail({ activityId, onBack }) {
   const { activity, loading, error } = currentResult;
 
   return (
-    <div className="activity-detail-container">
-      {/* 5 PUNKTAS: Aiškus „Atgal“ veiksmas */}
-      <div className="activity-detail-nav">
-        <button
-          type="button"
-          onClick={onBack}
-          className="activity-detail-back-btn"
-        >
-          ← Atgal į skelbimus
-        </button>
-      </div>
+    <div className="activity-detail-page">
+      <AuthenticatedHeader />
+      <main className="activity-detail-container">
+        {/* 5 PUNKTAS: Aiškus „Atgal“ veiksmas */}
+        <div className="activity-detail-nav">
+          <button
+            type="button"
+            onClick={onBack}
+            className="activity-detail-back-btn"
+          >
+            ← Atgal į skelbimus
+          </button>
+        </div>
 
-      <BaseCard>
+        <BaseCard>
         {/* 4.1 PUNKTAS: Kol informacija kraunasi */}
         {loading && (
           <div className="activity-detail-status">
@@ -109,10 +112,25 @@ export default function ActivityDetail({ activityId, onBack }) {
                   {activity.category}
                 </span>
               )}
-              <span className="activity-detail-id">ID: #{activity.id}</span>
             </div>
 
             <h1 className="activity-detail-title">{activity.title}</h1>
+
+            {Array.isArray(activity.image_urls) &&
+              activity.image_urls.length > 0 && (
+                <div
+                  className="activity-detail-images"
+                  aria-label={`${activity.title} nuotraukos`}
+                >
+                  {activity.image_urls.map((imageUrl, index) => (
+                    <img
+                      key={imageUrl}
+                      src={imageUrl}
+                      alt={`${activity.title} – nuotrauka ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
 
             {(activity.location || activity.starts_at) && (
               <div className="activity-detail-meta-grid">
@@ -147,7 +165,8 @@ export default function ActivityDetail({ activityId, onBack }) {
 
           </div>
         )}
-      </BaseCard>
+        </BaseCard>
+      </main>
     </div>
   );
 }

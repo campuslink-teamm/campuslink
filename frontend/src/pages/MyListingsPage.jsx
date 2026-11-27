@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import ActivityCard from '../components/ui/ActivityCard';
+import AuthenticatedHeader from '../components/AuthenticatedHeader';
 import { getCurrentUserListings } from '../services/listingService';
-import { logoutUser } from '../services/authenticationService';
 
 import './FeedPage.css'; // Galite naudoti tuos pačius stilius kaip FeedPage
 
@@ -43,28 +43,7 @@ export default function MyListingsPage() {
 
   return (
     <div className="auth-page feed-page-wrapper">
-      <header className="auth-header feed-header">
-        <div className="feed-header-left">
-          <button
-            className="auth-logo-button"
-            type="button"
-            onClick={() => navigate('/feed')}
-          >
-            <img src="/images/logo.png" alt="CampusLink" className="auth-logo" />
-          </button>
-        </div>
-        <nav className="feed-nav">
-          <button className="nav-link" onClick={() => navigate('/feed')}>
-            Pagrindinis
-          </button>
-          <button className="nav-link active" onClick={() => navigate('/my-listings')}>
-            Mano skelbimai
-          </button>
-          <button className="nav-link" onClick={() => navigate('/profile')}>
-            Mano profilis
-          </button>
-        </nav>
-      </header>
+      <AuthenticatedHeader />
 
       <div className="feed-main-content">
         <div className="feed-top-section">
@@ -89,8 +68,7 @@ export default function MyListingsPage() {
                 key={listing.id}
                 activity={{
                   ...listing,
-                  // Pritaikome laukus, jei skiriasi pavadinimai lentelėje
-                  starts_at: listing.created_at, 
+                  image: listing.image_urls?.[0] ?? null,
                 }}
                 onClick={() => navigate(`/activities/${listing.id}`)}
               />

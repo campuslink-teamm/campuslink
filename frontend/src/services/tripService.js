@@ -10,7 +10,6 @@ const tripFields = `
   seats_booked,
   price_per_seat,
   notes,
-  status,
   passengers:trip_passengers(passenger_id, passenger_name)
 `;
 
@@ -34,7 +33,6 @@ export async function getTrips() {
   const { data, error } = await client
     .from('trips')
     .select(tripFields)
-    .eq('status', 'active')
     .gte('departure_at', new Date().toISOString())
     .order('departure_at', { ascending: true });
 

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
+import AuthenticatedHeader from '../components/AuthenticatedHeader';
 import {
   getCurrentUserProfile,
   updateCurrentUserProfile
 } from '../services/profileService';
 
 import Button from '../components/ui/Button';
+import useLogout from '../hooks/useLogout';
 import './ProfilePage.css';
 
 export default function ProfilePage() {
-  const navigate = useNavigate();
-
+  const { handleLogout, isLoggingOut } = useLogout();
   const [profile, setProfile] = useState(null);
 
   const [firstName, setFirstName] = useState('');
@@ -84,149 +84,137 @@ export default function ProfilePage() {
     }
   }
 
-  if (loading) {
-    return (
-      <main className="profile-page">
-        <p>Kraunamas profilis...</p>
-      </main>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <main className="profile-page">
-        <p role="alert">{error || 'Nepavyko įkelti profilio.'}</p>
-      </main>
-    );
-  }
-
   return (
-    <main className="profile-page">
+    <div className="profile-page">
+      <AuthenticatedHeader />
+      <main className="profile-container">
+        {loading ? (
+          <p>Kraunamas profilis...</p>
+        ) : !profile ? (
+          <p role="alert">{error || 'Nepavyko įkelti profilio.'}</p>
+        ) : (
+          <>
 
-      <header className="profile-header">
-        <h2 className="profile-logo">CampusLink 🌸</h2>
+            <div className="profile-welcome">
+              <div className="profile-avatar">
+                {firstName.trim().charAt(0).toUpperCase() || '🎓'}
+              </div>
 
-        <button
-          className="profile-back"
-          onClick={() => navigate('/feed')}
-          type="button"
-        >
-          ← Grįžti į pagrindinį
-        </button>
-      </header>
+              <h1>Mano profilis</h1>
+              <p>Peržiūrėk ir atnaujink savo informaciją</p>
+            </div>
 
-      <div className="profile-container">
+            <section className="profile-card">
 
-        <div className="profile-welcome">
-          <div className="profile-avatar">
-            {firstName.trim().charAt(0).toUpperCase() || '🎓'}
+              <div className="profile-section-title">
+                <h2>Asmeninė informacija</h2>
+                <p>Čia gali redaguoti savo duomenis</p>
+              </div>
+
+              <form onSubmit={handleSave}>
+
+                <div className="profile-fields">
+
+                  <div className="profile-field">
+                    <label htmlFor="firstName">Vardas</label>
+
+                    <input
+                      id="firstName"
+                      className="profile-input"
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Įvesk vardą"
+                    />
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="lastName">Pavardė</label>
+
+                    <input
+                      id="lastName"
+                      className="profile-input"
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Įvesk pavardę"
+                    />
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="email">El. paštas</label>
+
+                    <input
+                      id="email"
+                      className="profile-input profile-readonly"
+                      type="email"
+                      value={profile.email}
+                      readOnly
+                    />
+
+                    <small>El. pašto keisti negalima</small>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="phoneNumber">
+                      Telefono numeris
+                    </label>
+
+                    <input
+                      id="phoneNumber"
+                      className="profile-input"
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      placeholder="+370..."
+                    />
+                  </div>
+
+                </div>
+
+                <div className="profile-stats">
+                  <div>
+                    <span>📋 Mano veiklos</span>
+                    <strong>{profile.activitiesCount}</strong>
+                  </div>
+                </div>
+
+                {error && (
+                  <p className="profile-error" role="alert">
+                    {error}
+                  </p>
+                )}
+
+                {message && (
+                  <p className="profile-success" role="status">
+                    {message}
+                  </p>
+                )}
+
+                <div className="profile-actions">
+                  <Button type="submit" disabled={saving}>
+                    {saving
+                      ? 'Išsaugoma...'
+                      : 'Išsaugoti pakeitimus'}
+                  </Button>
+                </div>
+
+              </form>
+
+            </section>
+          </>
+        )}
+
+        <section className="profile-logout">
+          <div>
+            <h2>Atsijungti</h2>
+            <p>Atsijunkite nuo savo CampusLink paskyros.</p>
           </div>
-
-          <h1>Mano profilis</h1>
-          <p>Peržiūrėk ir atnaujink savo informaciją</p>
-        </div>
-
-        <section className="profile-card">
-
-          <div className="profile-section-title">
-            <h2>Asmeninė informacija</h2>
-            <p>Čia gali redaguoti savo duomenis</p>
-          </div>
-
-          <form onSubmit={handleSave}>
-
-            <div className="profile-fields">
-
-              <div className="profile-field">
-                <label htmlFor="firstName">Vardas</label>
-
-                <input
-                  id="firstName"
-                  className="profile-input"
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Įvesk vardą"
-                />
-              </div>
-
-              <div className="profile-field">
-                <label htmlFor="lastName">Pavardė</label>
-
-                <input
-                  id="lastName"
-                  className="profile-input"
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Įvesk pavardę"
-                />
-              </div>
-
-              <div className="profile-field">
-                <label htmlFor="email">El. paštas</label>
-
-                <input
-                  id="email"
-                  className="profile-input profile-readonly"
-                  type="email"
-                  value={profile.email}
-                  readOnly
-                />
-
-                <small>El. pašto keisti negalima</small>
-              </div>
-
-              <div className="profile-field">
-                <label htmlFor="phoneNumber">
-                  Telefono numeris
-                </label>
-
-                <input
-                  id="phoneNumber"
-                  className="profile-input"
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="+370..."
-                />
-              </div>
-
-            </div>
-
-            <div className="profile-stats">
-              <div>
-                <span>📋 Mano veiklos</span>
-                <strong>{profile.activitiesCount}</strong>
-              </div>
-            </div>
-
-            {error && (
-              <p className="profile-error" role="alert">
-                {error}
-              </p>
-            )}
-
-            {message && (
-              <p className="profile-success" role="status">
-                {message}
-              </p>
-            )}
-
-            <div className="profile-actions">
-              <Button type="submit" disabled={saving}>
-                {saving
-                  ? 'Išsaugoma...'
-                  : 'Išsaugoti pakeitimus'}
-              </Button>
-            </div>
-
-          </form>
-
+          <Button onClick={handleLogout} disabled={isLoggingOut}>
+            {isLoggingOut ? 'Atsijungiama...' : 'Atsijungti'}
+          </Button>
         </section>
-
-      </div>
-
-    </main>
+      </main>
+    </div>
   );
 }

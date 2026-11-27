@@ -1,201 +1,409 @@
-/* Pagrindinis puslapis */ 
-.feed-page {
-    padding: 20px;
-    font-family: sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
+.trips-page {
+  min-height: 100vh;
+  background: #fff8fc;
+  color: #332236;
 }
 
-/*headeris*/
-.feed-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eaeaea;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* uztikrina lankstuma tarp skirtingu rezoliuciju */
+.trips-content {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+  box-sizing: border-box;
 }
 
-.feed-logo {
-  color: #2563eb;
-  margin: 0;
-  font-size: 22px;
-}
-
-.feed-nav {
+.trips-heading {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 28px;
+  min-height: 220px;
+  margin-bottom: 36px;
+  padding: 36px 40px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(255, 250, 253, 0.96) 0%,
+      rgba(255, 250, 253, 0.88) 54%,
+      rgba(255, 250, 253, 0.68) 100%
+    ),
+    url("/images/bg-2.png") center 55% / cover no-repeat;
+  box-shadow: 0 14px 34px rgba(76, 29, 75, 0.1);
+}
+
+.trips-eyebrow {
+  margin: 0 0 12px;
+  color: #8e2885;
   font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.nav-link {
-  border: 0;
-  padding: 0;
-  background: transparent;
-  font: inherit;
-  cursor: pointer;
-  color: #6b7280;
-  text-decoration: none;
+.trips-heading h1 {
+  max-width: 900px;
+  margin: 0;
+  color: #351d39;
+  font-size: clamp(30px, 4vw, 52px);
+  line-height: 1.12;
 }
 
-.nav-link.active {
-  color: #2563eb;
+.trips-intro {
+  margin: 14px 0 0;
+  color: #66586a;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.trips-heading > .campus-button {
+  flex: 0 0 auto;
+}
+
+.trips-message {
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  border-radius: 12px;
   font-weight: 600;
 }
 
-/* Antraštės dalis */
-.feed-top-section {
+.trips-message-error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.trips-message-success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.trip-form-card,
+.trip-card,
+.trips-empty-state {
+  border: 1px solid #ead9e8;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(76, 29, 75, 0.07);
+}
+
+.trip-form-card {
+  margin-bottom: 36px;
+  padding: 28px;
+}
+
+.trip-form-heading {
+  margin-bottom: 24px;
+}
+
+.trip-form-heading h2 {
+  margin: 0 0 8px;
+  color: #421b46;
+}
+
+.trip-form-heading p {
+  margin: 0;
+  color: #6b5b6d;
+}
+
+.trip-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.trip-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.trip-field label {
+  color: #49384d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.trip-field input,
+.trip-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #d8c6da;
+  border-radius: 10px;
+  background: #fff;
+  color: #332236;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.trip-field textarea {
+  resize: vertical;
+}
+
+.trip-field input:focus,
+.trip-field textarea:focus {
+  outline: 3px solid rgba(157, 16, 160, 0.18);
+  border-color: #9d10a0;
+}
+
+.trip-form-actions,
+.trip-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.trip-secondary-button {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid #c9b8cb;
+  border-radius: 12px;
+  background: #fff;
+  color: #554658;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trip-secondary-button:hover:not(:disabled) {
+  background: #faf4fb;
+}
+
+.trip-secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.trips-list {
+  margin-top: 12px;
+}
+
+.trips-list-heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 15px;
+  gap: 16px;
+  margin-bottom: 18px;
 }
 
-.feed-title {
-  font-size: 24px;
-  margin: 0 0 5px 0;
-  color: #111827;
-}
-
-.feed-subtitle {
-  color: #6b7280;
+.trips-list-heading h2 {
   margin: 0;
-  font-size: 14px;
+  color: #351d39;
+  font-size: 28px;
 }
 
-/* 🔥 SKELBIMŲ TINKLELIS (GRID) IR RESPONSIVE DIZAINAS */
-.activities-grid {
+.trips-refresh-button {
+  border: 0;
+  background: transparent;
+  color: #8e2885;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trips-refresh-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.trips-empty-state {
   display: grid;
-  /* Pakeista į lygiai 3 stulpelius per visą plotą */
-  grid-template-columns: repeat(3, 1fr);
-  /* Tolygūs tarpai tarp kortelių */
+  justify-items: center;
+  gap: 10px;
+  padding: 44px 24px;
+  color: #65566a;
+  text-align: center;
+}
+
+.trips-empty-state h3,
+.trips-empty-state p {
+  margin: 0;
+}
+
+.trips-empty-state h3 {
+  color: #49384d;
+  font-size: 22px;
+}
+
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
-/* Atskira skelbimo kortelė */
-.activity-card-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.trip-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px;
 }
 
-.activity-card-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.activity-title {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  color: #1f2937;
-}
-
-.activity-desc {
-  color: #4b5563;
-  font-size: 14px;
-  margin: 0 0 12px 0;
-  line-height: 1.4;
-}
-
-.activity-date {
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-.no-activities {
-  color: #6b7280;
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 40px;
-}
-
-.activities-status {
-  grid-column: 1 / -1;
-  display: grid;
-  justify-items: center;
+.trip-card-top,
+.trip-card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 12px;
-  padding: 40px;
-  color: #6b7280;
-  text-align: center;
 }
 
-/* 📱 Mobiliųjų ekranų pritaikymas (Responsive design) */
-@media (max-width: 992px) {
-  .activities-grid {
-    /* Planšetėms padarome 2 stulpelius */
-    grid-template-columns: repeat(2, 1fr);
-  }
+.trip-date {
+  color: #6e5c70;
+  font-size: 14px;
+  font-weight: 700;
 }
 
-@media (max-width: 768px) {
-  .feed-page {
-    padding: 10px;
+.trip-owner-badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f7e4f4;
+  color: #85247d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.trip-route {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.trip-city {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.trip-city span {
+  color: #786b7a;
+  font-size: 12px;
+}
+
+.trip-city strong {
+  overflow-wrap: anywhere;
+  color: #3b2940;
+  font-size: 19px;
+}
+
+.trip-city-destination {
+  text-align: right;
+}
+
+.trip-route-arrow {
+  color: #a53d99;
+  font-size: 24px;
+}
+
+.trip-card-details {
+  padding-top: 14px;
+  border-top: 1px solid #eee5ef;
+  color: #625367;
+  font-size: 14px;
+}
+
+.trip-card-details strong {
+  color: #8e2885;
+  font-size: 17px;
+}
+
+.trip-notes {
+  margin: 0;
+  color: #625367;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.trip-passengers {
+  padding: 14px;
+  border-radius: 12px;
+  background: #fbf5fc;
+}
+
+.trip-passengers h3,
+.trip-passengers p {
+  margin: 0;
+}
+
+.trip-passengers h3 {
+  margin-bottom: 8px;
+  color: #49384d;
+  font-size: 15px;
+}
+
+.trip-passengers ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 20px;
+  color: #625367;
+}
+
+@media (max-width: 900px) {
+  .trips-content {
+    padding: 32px 20px 60px;
   }
 
-  .feed-header {
-    flex-direction: column;
+  .trips-heading {
     align-items: flex-start;
-  }
-
-  .feed-nav {
-    gap: 12px;
-    overflow-x: auto;
-    width: 100%;
-    padding-bottom: 5px;
-  }
-
-  .feed-top-section {
     flex-direction: column;
-    align-items: stretch;
+    min-height: auto;
   }
 
-  .activities-grid {
-    /* Mobiliuosiuose ekranuose kortelės bus per visą plotą (1 stulpelis) */
+  .trips-grid {
     grid-template-columns: 1fr;
   }
 }
-/* CampusLink logotipas ir atsijungimo mygtukas */
 
-.feed-header-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-/* Atsijungimo mygtuko dydis */
-
-.feed-header-left .campus-button {
-  padding: 9px 16px;
-  font-size: 14px;
-}
-
-/* Atsijungimo klaida */
-
-.feed-logout-error {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 12px 20px;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* Siauresni ekranai */
-
-@media (max-width: 750px) {
-  .feed-header {
-    flex-wrap: wrap;
-    gap: 15px;
+@media (max-width: 600px) {
+  .trips-content {
+    padding: 24px 14px 48px;
   }
 
-  .feed-nav {
-    flex-wrap: wrap;
+  .trips-heading {
+    gap: 20px;
+    padding: 26px 20px;
+    background-position: center;
+  }
+
+  .trips-heading h1 {
+    font-size: 32px;
+  }
+
+  .trips-intro {
+    font-size: 16px;
+  }
+
+  .trip-form-card,
+  .trip-card {
+    padding: 18px;
+  }
+
+  .trip-form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .trips-list-heading {
+    align-items: flex-start;
+  }
+
+  .trips-list-heading h2 {
+    font-size: 23px;
+  }
+
+  .trip-route {
+    gap: 8px;
+  }
+
+  .trip-city strong {
+    font-size: 16px;
+  }
+
+  .trip-card-details {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
